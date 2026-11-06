@@ -21,3 +21,7 @@ A001 in `protocol/AMENDMENT_R001_DESCRIPTIVE_ONLY.md` supersedes binary non-infe
 ## Next authorized work
 
 Source acquisition from original UCI URL with byte provenance, explicit audited protocol corrections, audit-only scripts, missingness structural/determinism tests, and G1B experiment scaffolding that cannot fit models. No substitute Adult variant or mirror may silently replace the original.
+
+## Subsequent review disposition — A002 (2026-11-07)
+
+The owner confirmed that clipped-logistic MAR was the previously agreed specification. The discrepancy is **stale draft documentation**, not an implementation defect. A002 (`protocol/AMENDMENT_A002_CLIPPED_LOGISTIC.md`) is the authoritative correction and supersedes this review's earlier undecided wording. Existing MAR code is NOT changed to exponential. The audited remote MCAR golden fixture is unaffected by MAR weights, and inspected source tests use clipped-logistic; archive-wide fixture clearance is **not yet established**, and the original SHA hashes must be retained for any later supersession. The README, ledger and descriptive-only template are present on this PR head. G1B remains blocked for R003, provenance, final MAR allowlists and sign-off.
