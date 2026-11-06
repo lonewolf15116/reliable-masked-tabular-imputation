@@ -16,3 +16,5 @@ Dataset: `<dataset>`  |  Outcome metric: `<metric>`  |  Direction: `<smaller/lar
 **Permitted interpretation:** Describe direction, magnitude, variability, and uncertainty, without asserting a binary inferential decision. Intervals may be unreliable under skewness; explain the diagnostic findings and avoid overinterpreting their coverage.
 
 **Prohibited result descriptions:** `non-inferior`, `equivalent`, `not significantly worse` (except historical references in the decision ledger). Never compute or display a binary NI PASS/FAIL result. Separate methodological NI validation findings from imputation results.
+
+**Source of authority:** A001 in `protocol/AMENDMENT_R001_DESCRIPTIVE_ONLY.md`; A002 changes MAR weighting documentation only, not this reporting scope. This template is present on the PR #1 head branch for review and is not permission to evaluate Adult test results.
