@@ -1,0 +1,3 @@
+id,date,decision,status,reason
+D001,2026-11-06,G1A scope and draft protocol approved; freeze pending audit and review,PROVISIONAL,No empirical work authorized beyond G1A
+A001,2026-11-07,R001 NI scope amended to descriptive-only reporting; Path 2 retired; 3 validation-procedure failures preserved,ADOPTED_LOCAL_PENDING_REMOTE,No binary NI inference; R002/R003 still block G1B; see protocol/AMENDMENT_R001_DESCRIPTIVE_ONLY.md
