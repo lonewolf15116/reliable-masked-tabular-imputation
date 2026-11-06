@@ -1,0 +1,12 @@
+# R002 additional configuration frequency-check execution plan — freeze before any new run
+
+Recorded 2026-11-07. PLANNING ONLY. The original one-anchor full-MAR 60,000-sample frequency test is already COMPLETE in Review Candidate 005 (three features, all Pearson p > 0.01). This document is NOT a retrospective amendment to that locked test.
+
+## New execution needs, not yet authorized as a configuration
+Before new testing, specify **each** frozen per-dataset feature-specific anchor allowlist, eligibility mask, anchor-standardization statistics fitted on train only, slope, clipping, mask rate, and frozen seed stream. These are not supplied by the old one-anchor toy test. Do not invent Adult driver assignments without an approved record.
+
+For every newly approved small-enough enumerated configuration: enumerate unordered fixed-count weighted-top-k probabilities independently using the exponential-race/Plackett–Luce representation, using fixed count k and feature-specific logistic weights. Record reference and seed stream SHA256 before sampling. Prefer 60,000 replicates per feature with a **fixed runtime ceiling of 120 seconds per feature on the execution environment** (performance tracking only). If the ceiling is reached, stop and mark the 60,000-sample attempt INCOMPLETE; the fallback is a **separately run, preregistered** 10,000-sample experiment using its own precommitted seed stream, not truncation of the already inspected 60k trial. Neither path may be selected based on observed discrepancy.
+
+Pearson chi-square over all unordered eligible k-subsets, significance alpha=0.01; use asymptotic reference only if every expected count >=5, otherwise prespecified exact multinomial Monte Carlo reference with 200,000 null replicates, plus-one p-value, null seed 99991, reject below 0.01. A configuration with too many categories to meet the expected-count condition must use the null reference with its category-count and power constraints disclosed; a goodness-of-fit non-rejection cannot independently establish adequate defect-detection power. Prior to approval of 10k fallback as sufficient, register a defect alternative, compute power for that fixed alternative, and explicitly require >=80% simulated power to detect it; if power is not shown the fallback is **INCONCLUSIVE**, not PASS.
+
+This plan specifies a prospective contingency and does not alter the existing 60k result. No new experiments were run. G1A remains blocked.
