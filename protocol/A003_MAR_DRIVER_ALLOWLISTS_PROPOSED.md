@@ -35,3 +35,11 @@ For all listed eligible target features, use A002 p_ij=clip(sigmoid(a_j + 1.0*z_
 Every dataset schema/variant must be verified against actual bytes and the feature names checked. Freeze dataset-specific immutable split indices, train-only standardization stats, feature eligibility, and the config/hash in `configs/masks/g1a_frozen.yaml` before fitting. Any changed anchor or eligible feature requires a dated amendment and a re-run of masking reference verification. The present mapping deliberately uses one numeric never-masked anchor per dataset; the restricted driver diversity is a scientific limitation to disclose, not a license to silently add drivers.
 
 **Status: proposed-for-review design specification recorded; not a retroactive freeze, not G1A PASS.**
+
+## Gate 1 scope and anchor-exclusion interpretation (recorded before A003 approval)
+
+**This is an intentionally narrow single-anchor MAR design.** Every eligible feature's missingness is conditioned exclusively on its listed anchor, with no feature-specific alternative drivers. Accordingly the Adult MAR design means "all simulated MAR missingness conditioned on age"; Bank uses age and California Housing uses HouseAge. Results must be labelled **single-anchor simulated MAR**, not generalized to all MAR mechanisms. This is a scientific limitation, not a generator defect.
+
+**Anchors themselves cannot be masked in these MAR experiments.** Adult `age`, Bank `age`, and Housing `HouseAge` are excluded from MAR-masked eligible-cell populations. They may be included in a **separately labelled MCAR-only** masking evaluation, provided MCAR eligibility and consistent comparison populations are preregistered. If age (or HouseAge) appears in tables, mark `MCAR only / MAR not applicable: reserved anchor`. Never interpret missing MAR-age results as an omitted experiment, and never mix MCAR-only age rows into aggregate MAR risk/coverage comparisons.
+
+A003 is still **PROPOSED**: the anchor selection has not been signed off, external dataset schemas have not been audited, and no G1A freeze is implied.
