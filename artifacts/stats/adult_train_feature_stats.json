@@ -1,0 +1,263 @@
+{
+  "categorical_training_vocabularies": {
+    "education": {
+      "levels": [
+        "10th",
+        "11th",
+        "12th",
+        "1st-4th",
+        "5th-6th",
+        "7th-8th",
+        "9th",
+        "Assoc-acdm",
+        "Assoc-voc",
+        "Bachelors",
+        "Doctorate",
+        "HS-grad",
+        "Masters",
+        "Preschool",
+        "Prof-school",
+        "Some-college"
+      ],
+      "n_levels": 16,
+      "question_mark_is_literal_level": false,
+      "question_mark_train_count": 0
+    },
+    "marital-status": {
+      "levels": [
+        "Divorced",
+        "Married-AF-spouse",
+        "Married-civ-spouse",
+        "Married-spouse-absent",
+        "Never-married",
+        "Separated",
+        "Widowed"
+      ],
+      "n_levels": 7,
+      "question_mark_is_literal_level": false,
+      "question_mark_train_count": 0
+    },
+    "native-country": {
+      "levels": [
+        "?",
+        "Cambodia",
+        "Canada",
+        "China",
+        "Columbia",
+        "Cuba",
+        "Dominican-Republic",
+        "Ecuador",
+        "El-Salvador",
+        "England",
+        "France",
+        "Germany",
+        "Greece",
+        "Guatemala",
+        "Haiti",
+        "Holand-Netherlands",
+        "Honduras",
+        "Hong",
+        "Hungary",
+        "India",
+        "Iran",
+        "Ireland",
+        "Italy",
+        "Jamaica",
+        "Japan",
+        "Laos",
+        "Mexico",
+        "Nicaragua",
+        "Outlying-US(Guam-USVI-etc)",
+        "Peru",
+        "Philippines",
+        "Poland",
+        "Portugal",
+        "Puerto-Rico",
+        "Scotland",
+        "South",
+        "Taiwan",
+        "Thailand",
+        "Trinadad&Tobago",
+        "United-States",
+        "Vietnam",
+        "Yugoslavia"
+      ],
+      "n_levels": 42,
+      "question_mark_is_literal_level": true,
+      "question_mark_train_count": 399
+    },
+    "occupation": {
+      "levels": [
+        "?",
+        "Adm-clerical",
+        "Armed-Forces",
+        "Craft-repair",
+        "Exec-managerial",
+        "Farming-fishing",
+        "Handlers-cleaners",
+        "Machine-op-inspct",
+        "Other-service",
+        "Priv-house-serv",
+        "Prof-specialty",
+        "Protective-serv",
+        "Sales",
+        "Tech-support",
+        "Transport-moving"
+      ],
+      "n_levels": 15,
+      "question_mark_is_literal_level": true,
+      "question_mark_train_count": 1280
+    },
+    "race": {
+      "levels": [
+        "Amer-Indian-Eskimo",
+        "Asian-Pac-Islander",
+        "Black",
+        "Other",
+        "White"
+      ],
+      "n_levels": 5,
+      "question_mark_is_literal_level": false,
+      "question_mark_train_count": 0
+    },
+    "relationship": {
+      "levels": [
+        "Husband",
+        "Not-in-family",
+        "Other-relative",
+        "Own-child",
+        "Unmarried",
+        "Wife"
+      ],
+      "n_levels": 6,
+      "question_mark_is_literal_level": false,
+      "question_mark_train_count": 0
+    },
+    "sex": {
+      "levels": [
+        "Female",
+        "Male"
+      ],
+      "n_levels": 2,
+      "question_mark_is_literal_level": false,
+      "question_mark_train_count": 0
+    },
+    "workclass": {
+      "levels": [
+        "?",
+        "Federal-gov",
+        "Local-gov",
+        "Never-worked",
+        "Private",
+        "Self-emp-inc",
+        "Self-emp-not-inc",
+        "State-gov",
+        "Without-pay"
+      ],
+      "n_levels": 9,
+      "question_mark_is_literal_level": true,
+      "question_mark_train_count": 1275
+    }
+  },
+  "exact_zero_iqr_feature_count": 2,
+  "exact_zero_iqr_numeric_features": [
+    "capital-gain",
+    "capital-loss"
+  ],
+  "imputation_feature_names": [
+    "age",
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education-num",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week",
+    "native-country"
+  ],
+  "income_role": "stratification label only; not imputation feature",
+  "no_model_fitting_performed": true,
+  "no_validation_or_test_statistics_used": true,
+  "num_train_rows": 22792,
+  "numeric_feature_stats": {
+    "age": {
+      "exact_zero_iqr": false,
+      "iqr": 20.0,
+      "max": 90.0,
+      "median": 37.0,
+      "min": 17.0,
+      "n_train": 22792,
+      "q25": 28.0,
+      "q75": 48.0
+    },
+    "capital-gain": {
+      "exact_zero_iqr": true,
+      "iqr": 0.0,
+      "max": 99999.0,
+      "median": 0.0,
+      "min": 0.0,
+      "n_train": 22792,
+      "q25": 0.0,
+      "q75": 0.0
+    },
+    "capital-loss": {
+      "exact_zero_iqr": true,
+      "iqr": 0.0,
+      "max": 4356.0,
+      "median": 0.0,
+      "min": 0.0,
+      "n_train": 22792,
+      "q25": 0.0,
+      "q75": 0.0
+    },
+    "education-num": {
+      "exact_zero_iqr": false,
+      "iqr": 3.0,
+      "max": 16.0,
+      "median": 10.0,
+      "min": 1.0,
+      "n_train": 22792,
+      "q25": 9.0,
+      "q75": 12.0
+    },
+    "fnlwgt": {
+      "exact_zero_iqr": false,
+      "iqr": 118641.0,
+      "max": 1455435.0,
+      "median": 177974.0,
+      "min": 12285.0,
+      "n_train": 22792,
+      "q25": 117606.0,
+      "q75": 236247.0
+    },
+    "hours-per-week": {
+      "exact_zero_iqr": false,
+      "iqr": 5.0,
+      "max": 99.0,
+      "median": 40.0,
+      "min": 1.0,
+      "n_train": 22792,
+      "q25": 40.0,
+      "q75": 45.0
+    }
+  },
+  "numpy_version": "2.1.3",
+  "primary_normalized_error_excludes": [
+    "capital-gain",
+    "capital-loss"
+  ],
+  "protocol": "S002_TRAIN_STATS_ZERO_IQR_LOCK",
+  "python_version": "3.12.10",
+  "quantile_method": "numpy.quantile([0.25,0.5,0.75], method='linear') float64, train rows only",
+  "question_mark_policy": "observed categorical token, never coerced to missing",
+  "s001_combined_assignment_sha256": "db42df2db7b844a30cd340aecb4c738c8ac7a056d0b4fb4088b6eb7319e5d667",
+  "s001_train_index_sha256": "8b547f09b4d93871a95f409f243328a65ddde33b328176aee24db9cf30dab8e2",
+  "sklearn_version": "1.5.2",
+  "source_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "zero_iqr_reporting_policy": "exclude from primary IQR-normalized aggregate numerator and denominator; report separately in raw units"
+}
