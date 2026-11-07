@@ -1,0 +1,8 @@
+# Local environments, caches and sensitive source datasets
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+artifacts/source/adult.data
+artifacts/source/*.data
+artifacts/source/*.csv
