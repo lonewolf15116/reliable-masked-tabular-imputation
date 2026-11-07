@@ -3,3 +3,4 @@ artifacts/splits/*.txt text eol=lf
 artifacts/splits/*.json text eol=lf
 artifacts/source/*.json text eol=lf
 scripts/*.py text eol=lf
+artifacts/stats/*.json text eol=lf
