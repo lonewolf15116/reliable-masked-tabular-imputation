@@ -1,0 +1,10 @@
+# S001 source-controlled index files must remain LF-delimited across platforms.
+artifacts/splits/*.txt text eol=lf
+artifacts/splits/*.json text eol=lf
+artifacts/source/*.json text eol=lf
+scripts/*.py text eol=lf
+artifacts/stats/*.json text eol=lf
+artifacts/eligible_cells/*.json text eol=lf
+evidence/R002_*.json text eol=lf
+artifacts/p001/*.txt text eol=lf
+artifacts/p001/*.json text eol=lf

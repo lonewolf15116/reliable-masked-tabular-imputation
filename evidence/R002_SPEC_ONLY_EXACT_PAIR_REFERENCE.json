@@ -1,0 +1,378 @@
+{
+  "schema": "R002_SPEC_ENUM_REFERENCE_V1",
+  "status": "SPEC_ONLY_REFERENCE_FROZEN_BEFORE_SAMPLER_FREQUENCY_COMPARISON",
+  "derivation": "Weights: w_i=clip(sigmoid(alpha+z_i),0.01,0.99), choose alpha by mean(w)=0.20; for unordered pair i<j: P_ij=w_i/W*w_j/(W-w_i)+w_j/W*w_i/(W-w_j); marginal_i=sum_{j != i}P_ij. These w_i are positive selection weights, not fixed-count marginal inclusion probabilities.",
+  "feature": "occupation",
+  "source": "Frozen 10 standardized Adult training ages, receipt 2ec36b1; no generated mask outputs used",
+  "n": 10,
+  "k": 2,
+  "rate": 0.2,
+  "selection_positions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "z": [
+    -0.040172507752327107,
+    1.0625313822810438,
+    -0.7753084344412411,
+    -0.1136861004212185,
+    0.7684770116054782,
+    -0.5547676564345668,
+    0.2538818629232385,
+    -0.1136861004212185,
+    -0.6282812491034583,
+    -1.142876397785698
+  ],
+  "alpha": -1.381290717572495,
+  "weights": [
+    0.19443229850390975,
+    0.42097813706875037,
+    0.10371616551042541,
+    0.18317590904320472,
+    0.3514176210368584,
+    0.126081524750368,
+    0.2446396045409782,
+    0.18317590904320472,
+    0.11820158441933175,
+    0.07418124608296846
+  ],
+  "pairs": [
+    {
+      "indices": [
+        0,
+        1
+      ],
+      "probability": 0.04858498209340689
+    },
+    {
+      "indices": [
+        0,
+        2
+      ],
+      "probability": 0.010901512166289956
+    },
+    {
+      "indices": [
+        0,
+        3
+      ],
+      "probability": 0.019664166097558156
+    },
+    {
+      "indices": [
+        0,
+        4
+      ],
+      "probability": 0.03964411447903106
+    },
+    {
+      "indices": [
+        0,
+        5
+      ],
+      "probability": 0.013329460505282921
+    },
+    {
+      "indices": [
+        0,
+        6
+      ],
+      "probability": 0.026720729593540375
+    },
+    {
+      "indices": [
+        0,
+        7
+      ],
+      "probability": 0.019664166097558156
+    },
+    {
+      "indices": [
+        0,
+        8
+      ],
+      "probability": 0.012470707627212469
+    },
+    {
+      "indices": [
+        0,
+        9
+      ],
+      "probability": 0.007738799245310363
+    },
+    {
+      "indices": [
+        1,
+        2
+      ],
+      "probability": 0.025338302969437627
+    },
+    {
+      "indices": [
+        1,
+        3
+      ],
+      "probability": 0.04563991843646036
+    },
+    {
+      "indices": [
+        1,
+        4
+      ],
+      "probability": 0.0917137732706375
+    },
+    {
+      "indices": [
+        1,
+        5
+      ],
+      "probability": 0.030969289134132952
+    },
+    {
+      "indices": [
+        1,
+        6
+      ],
+      "probability": 0.061946569377028554
+    },
+    {
+      "indices": [
+        1,
+        7
+      ],
+      "probability": 0.04563991843646036
+    },
+    {
+      "indices": [
+        1,
+        8
+      ],
+      "probability": 0.02897814954750494
+    },
+    {
+      "indices": [
+        1,
+        9
+      ],
+      "probability": 0.01799651400884833
+    },
+    {
+      "indices": [
+        2,
+        3
+      ],
+      "probability": 0.010237788700275663
+    },
+    {
+      "indices": [
+        2,
+        4
+      ],
+      "probability": 0.020664544830245504
+    },
+    {
+      "indices": [
+        2,
+        5
+      ],
+      "probability": 0.006937109153744767
+    },
+    {
+      "indices": [
+        2,
+        6
+      ],
+      "probability": 0.013917526050971765
+    },
+    {
+      "indices": [
+        2,
+        7
+      ],
+      "probability": 0.010237788700275663
+    },
+    {
+      "indices": [
+        2,
+        8
+      ],
+      "probability": 0.006489850934224233
+    },
+    {
+      "indices": [
+        2,
+        9
+      ],
+      "probability": 0.004026189074424319
+    },
+    {
+      "indices": [
+        3,
+        4
+      ],
+      "probability": 0.037238531187993085
+    },
+    {
+      "indices": [
+        3,
+        5
+      ],
+      "probability": 0.012518145433448417
+    },
+    {
+      "indices": [
+        3,
+        6
+      ],
+      "probability": 0.02509688556329282
+    },
+    {
+      "indices": [
+        3,
+        7
+      ],
+      "probability": 0.018468168614020387
+    },
+    {
+      "indices": [
+        3,
+        8
+      ],
+      "probability": 0.01171158534136233
+    },
+    {
+      "indices": [
+        3,
+        9
+      ],
+      "probability": 0.007267458784672418
+    },
+    {
+      "indices": [
+        4,
+        5
+      ],
+      "probability": 0.025260081740428836
+    },
+    {
+      "indices": [
+        4,
+        6
+      ],
+      "probability": 0.050562158533714305
+    },
+    {
+      "indices": [
+        4,
+        7
+      ],
+      "probability": 0.037238531187993085
+    },
+    {
+      "indices": [
+        4,
+        8
+      ],
+      "probability": 0.02363494720781682
+    },
+    {
+      "indices": [
+        4,
+        9
+      ],
+      "probability": 0.014674553196402821
+    },
+    {
+      "indices": [
+        5,
+        6
+      ],
+      "probability": 0.01701576873637923
+    },
+    {
+      "indices": [
+        5,
+        7
+      ],
+      "probability": 0.012518145433448417
+    },
+    {
+      "indices": [
+        5,
+        8
+      ],
+      "probability": 0.007936222047443335
+    },
+    {
+      "indices": [
+        5,
+        9
+      ],
+      "probability": 0.004923829888600115
+    },
+    {
+      "indices": [
+        6,
+        7
+      ],
+      "probability": 0.02509688556329282
+    },
+    {
+      "indices": [
+        6,
+        8
+      ],
+      "probability": 0.015919995424987572
+    },
+    {
+      "indices": [
+        6,
+        9
+      ],
+      "probability": 0.009880891738777818
+    },
+    {
+      "indices": [
+        7,
+        8
+      ],
+      "probability": 0.01171158534136233
+    },
+    {
+      "indices": [
+        7,
+        9
+      ],
+      "probability": 0.007267458784672418
+    },
+    {
+      "indices": [
+        8,
+        9
+      ],
+      "probability": 0.004606299720027483
+    }
+  ],
+  "marginals": [
+    0.19871863790519037,
+    0.3968074172739175,
+    0.1087506125798895,
+    0.18784264815908364,
+    0.340631235634263,
+    0.131408052072909,
+    0.24615741058198526,
+    0.18784264815908364,
+    0.12345934319194152,
+    0.07838199444173607
+  ],
+  "probability_sum": 0.9999999999999996,
+  "marginal_sum": 1.9999999999999996
+}

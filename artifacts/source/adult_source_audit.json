@@ -1,0 +1,190 @@
+{
+  "adult_test_used": false,
+  "all_splits_source": "adult.data only (32561 rows)",
+  "byte_size": 3974305,
+  "candidate_identity_and_structure_match": true,
+  "candidate_third_party_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "categorical_cardinality_post_strip": {
+    "education": 16,
+    "income": 2,
+    "marital-status": 7,
+    "native-country": 42,
+    "occupation": 15,
+    "race": 5,
+    "relationship": 6,
+    "sex": 2,
+    "workclass": 9
+  },
+  "categorical_cardinality_pre_strip": {
+    "education": 16,
+    "income": 2,
+    "marital-status": 7,
+    "native-country": 42,
+    "occupation": 15,
+    "race": 5,
+    "relationship": 6,
+    "sex": 2,
+    "workclass": 9
+  },
+  "column_count": 15,
+  "column_names": [
+    "age",
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education-num",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week",
+    "native-country",
+    "income"
+  ],
+  "dtype_summary": {
+    "age": {
+      "distinct_observed_values": 73,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "capital-gain": {
+      "distinct_observed_values": 119,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "capital-loss": {
+      "distinct_observed_values": 92,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "education": {
+      "distinct_observed_values": 16,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "education-num": {
+      "distinct_observed_values": 16,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "fnlwgt": {
+      "distinct_observed_values": 21648,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "hours-per-week": {
+      "distinct_observed_values": 94,
+      "expected": "numeric",
+      "inferred": "integer"
+    },
+    "income": {
+      "distinct_observed_values": 2,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "marital-status": {
+      "distinct_observed_values": 7,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "native-country": {
+      "distinct_observed_values": 41,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "occupation": {
+      "distinct_observed_values": 14,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "race": {
+      "distinct_observed_values": 5,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "relationship": {
+      "distinct_observed_values": 6,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "sex": {
+      "distinct_observed_values": 2,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    },
+    "workclass": {
+      "distinct_observed_values": 8,
+      "expected": "categorical",
+      "inferred": "categorical_string"
+    }
+  },
+  "eligible_cell_manifest_state": "PENDING approved split and feature/anchor review",
+  "excluded_zero_iqr_features_state": "PENDING TRAINING SPLIT; keep flagged separately, not silently omitted",
+  "income_balance": {
+    "<=50K": 24720,
+    ">50K": 7841
+  },
+  "income_balance_fraction": {
+    "<=50K": 0.7591904425539756,
+    ">50K": 0.2408095574460244
+  },
+  "matches_candidate_third_party_record": true,
+  "no_training_or_model_fitting_performed": true,
+  "numerical_training_iqr_state": "NOT CALCULATED; requires approved training split",
+  "observed_row_widths": [
+    15
+  ],
+  "question_mark_category_policy": "observed categorical value, not null/NaN; downstream encoder must preserve explicit '?' level",
+  "question_mark_count_per_column": {
+    "age": 0,
+    "capital-gain": 0,
+    "capital-loss": 0,
+    "education": 0,
+    "education-num": 0,
+    "fnlwgt": 0,
+    "hours-per-week": 0,
+    "income": 0,
+    "marital-status": 0,
+    "native-country": 583,
+    "occupation": 1843,
+    "race": 0,
+    "relationship": 0,
+    "sex": 0,
+    "workclass": 1836
+  },
+  "question_mark_fraction_per_column": {
+    "age": 0.0,
+    "capital-gain": 0.0,
+    "capital-loss": 0.0,
+    "education": 0.0,
+    "education-num": 0.0,
+    "fnlwgt": 0.0,
+    "hours-per-week": 0.0,
+    "income": 0.0,
+    "marital-status": 0.0,
+    "native-country": 0.0179048555019809,
+    "occupation": 0.056601455729246644,
+    "race": 0.0,
+    "relationship": 0.0,
+    "sex": 0.0,
+    "workclass": 0.05638647461687295
+  },
+  "question_marks_treated_as_observed_categories": true,
+  "retrieval_timestamp_utc": "2026-11-06T23:46:05.024210+00:00",
+  "row_count": 32561,
+  "row_policy": "retain every row; ineligible cells are flagged per feature rather than dropping rows",
+  "rows_all_question_mark_among_original_question_mark_columns": 27,
+  "rows_at_least_two_question_marks_among_original_question_mark_columns": 1836,
+  "sha256_of_original_unmodified_bytes": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "source_revision": "R003-audit-only-v1",
+  "source_url": "https://raw.githubusercontent.com/batuhansahincanel/UCIsAdultDataset/main/adult.data",
+  "split_state": "NOT ASSIGNED; requires approved split seed, stratified fractions and immutable index manifest",
+  "status": "CANDIDATE_MATCH_NEEDS_REVIEW",
+  "uci_identity_inference": "Candidate byte-identity consistent with published third-party records; not proven against UCI-issued checksum",
+  "uci_issued_checksum_compared": false,
+  "utf8_decode_error": null,
+  "whitespace_policy": "strip every parsed field for ALL downstream consumers; retain source bytes unchanged for SHA256"
+}

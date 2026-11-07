@@ -1,0 +1,40 @@
+{
+  "dataset_source_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "python_version": "3.12.10",
+  "receipt_schema": "S003-VERIFY-RECEIPT-v2",
+  "receipt_script_sha256": "cf2aa35c87e6310b56788cfafb1a49dab9a012983c38ac1533fdbe1ab02a65d5",
+  "sha256_by_file": {
+    "artifacts/eligible_cells/adult_feature_eligibility.json": "2ee5f3feaf4c04e435d6bb46cca01dcf6f6258695d58b1f5b0ca2685da348ed2",
+    "artifacts/source/adult_source_audit.json": "15f5389c29d07a01262cea7291d8b24c39f92612a8d72c68fa835c150d7a3ff1",
+    "artifacts/splits/adult_split_manifest.json": "6365f0adecd2d4b82ad0eb51b7762864dc223aa1397b39d2206cb097a16f3fa1",
+    "artifacts/splits/adult_test_indices.txt": "3ec8c60b94c378a2b58f8a0526ed4a6f2c64c0b0fc80a7c2cbf058c61ce67eb3",
+    "artifacts/splits/adult_train_indices.txt": "8b547f09b4d93871a95f409f243328a65ddde33b328176aee24db9cf30dab8e2",
+    "artifacts/splits/adult_validation_indices.txt": "48add8759a60eeaf7b12cdbed787dfb5ff3a78ec9161ab1b92c49cabb5b02e03",
+    "artifacts/stats/adult_train_feature_stats.json": "6785a674d100bc822cc2c7afceeb2a171a6ad3a6f6e86a49244b8fa58a443179",
+    "protocol/A003_OWNER_APPROVAL_2026-11-07.md": "b89a8640696cc84c45d4339861e2a7e36699e0c5596cf6055e6ea78ec90196ec",
+    "scripts/s003_eligible_features.py": "debb243f18759e18cff7a999823d86f311ef02ba6e0c0b90b9364338820925dc",
+    "scripts/s003_verify_receipt.py": "cf2aa35c87e6310b56788cfafb1a49dab9a012983c38ac1533fdbe1ab02a65d5"
+  },
+  "status": "S003 FEATURE-LEVEL VERIFIED; MASK-LEVEL CELL IDS NOT GENERATED",
+  "structural_checks": {
+    "a003_conditions_document_present": true,
+    "exact_zero_iqr_feature_names": [
+      "capital-gain",
+      "capital-loss"
+    ],
+    "feature_set_excludes_income": true,
+    "mar_anchor_age_excluded_and_other_drivers_age": true,
+    "question_mark_counts_match_source_audit": true,
+    "recomputed_combined_index_sha256": "db42df2db7b844a30cd340aecb4c738c8ac7a056d0b4fb4088b6eb7319e5d667",
+    "recomputed_disjoint_full_coverage": true,
+    "recomputed_split_rows": {
+      "test": 4885,
+      "train": 22792,
+      "validation": 4884
+    },
+    "source_rows": 32561
+  },
+  "verification_command": "python scripts/s003_eligible_features.py --mode verify",
+  "verification_exit_code": 0,
+  "verification_stdout": "VERIFIED S003 feature-eligibility artifact against frozen S001 and S002\nS003 SHA256: 2ee5f3feaf4c04e435d6bb46cca01dcf6f6258695d58b1f5b0ca2685da348ed2\n"
+}

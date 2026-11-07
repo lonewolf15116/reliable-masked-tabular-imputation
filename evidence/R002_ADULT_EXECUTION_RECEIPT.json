@@ -1,0 +1,312 @@
+{
+  "adult_mask_checks": {
+    "train": {
+      "0.10": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 2279,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.09999999999999999,
+        "per_feature_exact_counts": {
+          "capital-gain": 2279,
+          "capital-loss": 2279,
+          "education": 2279,
+          "education-num": 2279,
+          "fnlwgt": 2279,
+          "hours-per-week": 2279,
+          "marital-status": 2279,
+          "native-country": 2279,
+          "occupation": 2279,
+          "race": 2279,
+          "relationship": 2279,
+          "sex": 2279,
+          "workclass": 2279
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 38,
+          "occupation": 169,
+          "workclass": 187
+        },
+        "question_mark_observed_cells": {
+          "native-country": 399,
+          "occupation": 1280,
+          "workclass": 1275
+        },
+        "total_masked_cells": 29627
+      },
+      "0.20": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 4558,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.19999999999999998,
+        "per_feature_exact_counts": {
+          "capital-gain": 4558,
+          "capital-loss": 4558,
+          "education": 4558,
+          "education-num": 4558,
+          "fnlwgt": 4558,
+          "hours-per-week": 4558,
+          "marital-status": 4558,
+          "native-country": 4558,
+          "occupation": 4558,
+          "race": 4558,
+          "relationship": 4558,
+          "sex": 4558,
+          "workclass": 4558
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 75,
+          "occupation": 275,
+          "workclass": 315
+        },
+        "question_mark_observed_cells": {
+          "native-country": 399,
+          "occupation": 1280,
+          "workclass": 1275
+        },
+        "total_masked_cells": 59254
+      },
+      "0.30": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 6838,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.3,
+        "per_feature_exact_counts": {
+          "capital-gain": 6838,
+          "capital-loss": 6838,
+          "education": 6838,
+          "education-num": 6838,
+          "fnlwgt": 6838,
+          "hours-per-week": 6838,
+          "marital-status": 6838,
+          "native-country": 6838,
+          "occupation": 6838,
+          "race": 6838,
+          "relationship": 6838,
+          "sex": 6838,
+          "workclass": 6838
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 115,
+          "occupation": 386,
+          "workclass": 419
+        },
+        "question_mark_observed_cells": {
+          "native-country": 399,
+          "occupation": 1280,
+          "workclass": 1275
+        },
+        "total_masked_cells": 88894
+      }
+    },
+    "validation": {
+      "0.10": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 488,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.09999999999999999,
+        "per_feature_exact_counts": {
+          "capital-gain": 488,
+          "capital-loss": 488,
+          "education": 488,
+          "education-num": 488,
+          "fnlwgt": 488,
+          "hours-per-week": 488,
+          "marital-status": 488,
+          "native-country": 488,
+          "occupation": 488,
+          "race": 488,
+          "relationship": 488,
+          "sex": 488,
+          "workclass": 488
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 11,
+          "occupation": 47,
+          "workclass": 48
+        },
+        "question_mark_observed_cells": {
+          "native-country": 100,
+          "occupation": 252,
+          "workclass": 250
+        },
+        "total_masked_cells": 6344
+      },
+      "0.20": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 977,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.19999999999999998,
+        "per_feature_exact_counts": {
+          "capital-gain": 977,
+          "capital-loss": 977,
+          "education": 977,
+          "education-num": 977,
+          "fnlwgt": 977,
+          "hours-per-week": 977,
+          "marital-status": 977,
+          "native-country": 977,
+          "occupation": 977,
+          "race": 977,
+          "relationship": 977,
+          "sex": 977,
+          "workclass": 977
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 22,
+          "occupation": 78,
+          "workclass": 72
+        },
+        "question_mark_observed_cells": {
+          "native-country": 100,
+          "occupation": 252,
+          "workclass": 250
+        },
+        "total_masked_cells": 12701
+      },
+      "0.30": {
+        "anchor_is_unmasked": true,
+        "expected_each_feature": 1465,
+        "income_excluded": true,
+        "mask_deterministic": true,
+        "mean_clipped_logistic_weight": 0.3,
+        "per_feature_exact_counts": {
+          "capital-gain": 1465,
+          "capital-loss": 1465,
+          "education": 1465,
+          "education-num": 1465,
+          "fnlwgt": 1465,
+          "hours-per-week": 1465,
+          "marital-status": 1465,
+          "native-country": 1465,
+          "occupation": 1465,
+          "race": 1465,
+          "relationship": 1465,
+          "sex": 1465,
+          "workclass": 1465
+        },
+        "question_mark_cells_selected_by_mask": {
+          "native-country": 32,
+          "occupation": 98,
+          "workclass": 95
+        },
+        "question_mark_observed_cells": {
+          "native-country": 100,
+          "occupation": 252,
+          "workclass": 250
+        },
+        "total_masked_cells": 19045
+      }
+    }
+  },
+  "independent_sampling_law_status": "PENDING",
+  "input_sha256": {
+    "artifacts\\eligible_cells\\adult_feature_eligibility.json": "2ee5f3feaf4c04e435d6bb46cca01dcf6f6258695d58b1f5b0ca2685da348ed2",
+    "artifacts\\splits\\adult_split_manifest.json": "6365f0adecd2d4b82ad0eb51b7762864dc223aa1397b39d2206cb097a16f3fa1",
+    "artifacts\\stats\\adult_train_feature_stats.json": "6785a674d100bc822cc2c7afceeb2a171a6ad3a6f6e86a49244b8fa58a443179",
+    "protocol\\A003_OWNER_APPROVAL_2026-11-07.md": "b89a8640696cc84c45d4339861e2a7e36699e0c5596cf6055e6ea78ec90196ec",
+    "scripts/r002_adult_verify.py": "6bba4af0182aebc0bf6cc7d931325d1dca2795a338a11730afdad5502040558a",
+    "src/rmti/masking.py": "42af8adfc57061028dc8aec80f74c64fba36cbb5d1f6740e422144b0520a493e"
+  },
+  "masked_splits": [
+    "train",
+    "validation"
+  ],
+  "models_trained": false,
+  "pilot_executed": false,
+  "question_mark_preserved": {
+    "train": {
+      "native-country": 399,
+      "occupation": 1280,
+      "workclass": 1275
+    },
+    "validation": {
+      "native-country": 100,
+      "occupation": 252,
+      "workclass": 250
+    }
+  },
+  "rates_tested": [
+    0.1,
+    0.2,
+    0.3
+  ],
+  "schema": "R002-ADULT-v1",
+  "seed": 20261108,
+  "small_exact_law_reference_inputs": {
+    "anchor_standardized_values": [
+      -0.040172507752327107,
+      1.0625313822810438,
+      -0.7753084344412411,
+      -0.1136861004212185,
+      0.7684770116054782,
+      -0.5547676564345668,
+      0.2538818629232385,
+      -0.1136861004212185,
+      -0.6282812491034583,
+      -1.142876397785698
+    ],
+    "clipped_logistic_weights": [
+      0.19443229850390975,
+      0.42097813706875037,
+      0.10371616551042541,
+      0.18317590904320472,
+      0.3514176210368584,
+      0.126081524750368,
+      0.2446396045409782,
+      0.18317590904320472,
+      0.11820158441933175,
+      0.07418124608296846
+    ],
+    "feature": "occupation",
+    "k": 2,
+    "n": 10,
+    "provenance_requirement": "independent external reference or human review; same-author implementation insufficient",
+    "rate": 0.2,
+    "raw_row_ids_one_based": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "selected_train_index_positions_zero_based": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "status": "FROZEN_INPUTS_ONLY; INDEPENDENT_REFERENCE_VERIFICATION_PENDING",
+    "unordered_mask_category_count": 45,
+    "weight_convention": "Plackett-Luce sequential weighted selection summed over unordered permutations"
+  },
+  "source_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "standardization": {
+    "ddof": 0,
+    "dtype": "float64",
+    "feature": "age",
+    "fitted_split": "train only",
+    "mean": 38.54646367146367,
+    "std": 13.602926529574551,
+    "train_n": 22792,
+    "train_standardized_anchor_sha256": "2a803bf89e6b555b490eb139b4e44963e55b35044626faa65972b13336ddd908",
+    "validation_uses_train_mean_std": true
+  },
+  "status": "ADULT_INVARIANTS_PASS_IF_SCRIPT_SUCCEEDS; INDEPENDENT_SMALL_N_REFERENCE_PENDING",
+  "test_partition_masking": "NOT EXECUTED"
+}

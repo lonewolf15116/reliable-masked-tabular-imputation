@@ -1,0 +1,523 @@
+{
+  "eligible_definitions": {
+    "mar_anchor": "age proposed by A003, never MAR-masked if approved",
+    "mar_generalization": "single-anchor Adult simulation conditional on age only, if A003 approved",
+    "mask_selected_cell_set": "NOT GENERATED; requires approved A003 then fixed seed/mask manifest shared across methods",
+    "question_mark": "literal ? observed categorical ground truth; no missing coercion",
+    "rows": "all 32561 original rows retained in the locked partitions",
+    "target": "income NEVER an imputation input, mask target, or eligible comparison cell",
+    "zero_iqr_numeric": [
+      "capital-gain",
+      "capital-loss"
+    ],
+    "zero_iqr_policy": "excluded from primary IQR-normalized numeric error numerator and denominator; separately report in raw units; not deleted"
+  },
+  "no_predictions_or_model_fitting": true,
+  "no_raw_test_row_values_read": true,
+  "per_split": {
+    "test": {
+      "all_predictor_cells": 68390,
+      "categorical_cells_pre_mask": 39080,
+      "feature_eligibility": {
+        "age": {
+          "adult_mar_anchor_status": "reserved; not MAR maskable",
+          "adult_mar_driver_if_A003_approved": null,
+          "adult_mar_eligible_if_A003_approved": false,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "capital-gain": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "capital-loss": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "education": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "education-num": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "fnlwgt": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "hours-per-week": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "marital-status": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "native-country": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "occupation": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "race": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "relationship": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "sex": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "workclass": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4885,
+          "separate_raw_unit_numeric_reporting": false
+        }
+      },
+      "n_rows": 4885,
+      "numeric_primary_eligible_cells_pre_mask": 19540,
+      "numeric_zero_iqr_separate_cells": 9770,
+      "proposed_mar_target_cells": 63505,
+      "row_index_file": "adult_test_indices.txt",
+      "row_index_sha256": "3ec8c60b94c378a2b58f8a0526ed4a6f2c64c0b0fc80a7c2cbf058c61ce67eb3"
+    },
+    "train": {
+      "all_predictor_cells": 319088,
+      "categorical_cells_pre_mask": 182336,
+      "feature_eligibility": {
+        "age": {
+          "adult_mar_anchor_status": "reserved; not MAR maskable",
+          "adult_mar_driver_if_A003_approved": null,
+          "adult_mar_eligible_if_A003_approved": false,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "capital-gain": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "capital-loss": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "education": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "education-num": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "fnlwgt": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "hours-per-week": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "marital-status": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "native-country": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "occupation": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "race": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "relationship": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "sex": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "workclass": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 22792,
+          "separate_raw_unit_numeric_reporting": false
+        }
+      },
+      "n_rows": 22792,
+      "numeric_primary_eligible_cells_pre_mask": 91168,
+      "numeric_zero_iqr_separate_cells": 45584,
+      "proposed_mar_target_cells": 296296,
+      "row_index_file": "adult_train_indices.txt",
+      "row_index_sha256": "8b547f09b4d93871a95f409f243328a65ddde33b328176aee24db9cf30dab8e2"
+    },
+    "validation": {
+      "all_predictor_cells": 68376,
+      "categorical_cells_pre_mask": 39072,
+      "feature_eligibility": {
+        "age": {
+          "adult_mar_anchor_status": "reserved; not MAR maskable",
+          "adult_mar_driver_if_A003_approved": null,
+          "adult_mar_eligible_if_A003_approved": false,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "capital-gain": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "capital-loss": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": true
+        },
+        "education": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "education-num": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "fnlwgt": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "hours-per-week": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": false,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": true,
+          "numeric": true,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "marital-status": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "native-country": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "occupation": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "race": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "relationship": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "sex": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        },
+        "workclass": {
+          "adult_mar_anchor_status": "candidate MAR mask target",
+          "adult_mar_driver_if_A003_approved": "age",
+          "adult_mar_eligible_if_A003_approved": true,
+          "categorical_primary_reporting": true,
+          "ground_truth": "all original observed Adult cells; literal ? is observed category",
+          "included_in_primary_iqr_normalized_numeric_error": false,
+          "numeric": false,
+          "potentially_mask_eligible_cells_before_A003_and_mask_seed": 4884,
+          "separate_raw_unit_numeric_reporting": false
+        }
+      },
+      "n_rows": 4884,
+      "numeric_primary_eligible_cells_pre_mask": 19536,
+      "numeric_zero_iqr_separate_cells": 9768,
+      "proposed_mar_target_cells": 63492,
+      "row_index_file": "adult_validation_indices.txt",
+      "row_index_sha256": "48add8759a60eeaf7b12cdbed787dfb5ff3a78ec9161ab1b92c49cabb5b02e03"
+    }
+  },
+  "protocol": "S003_FEATURE_ELIGIBILITY_ONLY",
+  "s001_combined_assignment_sha256": "db42df2db7b844a30cd340aecb4c738c8ac7a056d0b4fb4088b6eb7319e5d667",
+  "s002_train_stats_sha256": "6785a674d100bc822cc2c7afceeb2a171a6ad3a6f6e86a49244b8fa58a443179",
+  "source_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+  "split_manifest_sha256": "6365f0adecd2d4b82ad0eb51b7762864dc223aa1397b39d2206cb097a16f3fa1",
+  "status": "PREMASK_FEATURE_LEVEL; A003 NOT APPROVED"
+}
