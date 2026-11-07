@@ -47,7 +47,7 @@ def construct():
     ids=[int(v) for v in train_bytes.decode("ascii").splitlines()]
     if len(ids)!=22792 or len(ids)!=len(set(ids)) or ids!=sorted(ids) or not all(1<=x<=32561 for x in ids):
         raise RuntimeError("invalid training index set")
-    rows=list(csv.reader(io.StringIO(raw.decode("utf-8"))))
+    rows=[r for r in csv.reader(io.StringIO(raw.decode("utf-8"))) if r]
     if len(rows)!=32561 or any(len(r)!=15 for r in rows):
         raise RuntimeError("invalid raw Adult schema")
     selected=[[v.strip() for v in rows[i-1]] for i in ids]
