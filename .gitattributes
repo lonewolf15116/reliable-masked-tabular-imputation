@@ -4,3 +4,4 @@ artifacts/splits/*.json text eol=lf
 artifacts/source/*.json text eol=lf
 scripts/*.py text eol=lf
 artifacts/stats/*.json text eol=lf
+artifacts/eligible_cells/*.json text eol=lf
