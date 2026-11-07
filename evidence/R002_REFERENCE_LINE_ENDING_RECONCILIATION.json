@@ -1,0 +1,15 @@
+{
+  "schema": "R002_REFERENCE_LINE_ENDING_RECONCILIATION_V1",
+  "status": "PROVENANCE_RECONCILED_NO_NUMERICAL_REFERENCE_CHANGE",
+  "reference_path": "evidence/R002_SPEC_ONLY_EXACT_PAIR_REFERENCE.json",
+  "receipt_path": "evidence/R002_EXACT_PAIR_COMPARISON_RECEIPT.json",
+  "reference_github_lf_sha256": "2f0069a3e212dd5f1130baad18ff0d64dcd7018f16daf2bbdc846aec5ce37f8a",
+  "reference_windows_crlf_sha256": "7d4091fb626e345787de48c903f8af56a16ed174e7703c65b6f754fd0c37de90",
+  "comparison_receipt_sha256": "f8d0a466b77fdddc57fb9798835c9dcc2912616e497e7ee146b32dd853cf93fd",
+  "method": "Retrieved GitHub UTF-8 text, computed SHA-256 of LF representation and the same bytes with each LF replaced by CRLF; CRLF hash exactly equals the comparison receipt's frozen reference hash. This reconciles two byte encodings of identical numerical content.",
+  "interpretation": "Frozen reference contents were committed before the comparison. Windows checkout yielded CRLF for a JSON file without a prior LF attribute. Comparison used that equivalent content, not a new or modified reference law.",
+  "limits": "Implementation-independent analytic reference and mutation check; not independent author verification. A Pearson chi-square nonrejection is not a formal proof of correctness.",
+  "do_not_modify_existing_receipt": true,
+  "models_trained": false,
+  "test_evaluated": false
+}
