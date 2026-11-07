@@ -34,7 +34,7 @@ def build():
     if s001["index_files"]["validation"]["sha256"]!=EXPECTED_VAL_SHA:
         raise RuntimeError("S001 validation SHA differs")
     data=VALIDATION.read_bytes()
-    if sha(data)!=EXPECTED_VAL_SHA or b"\\r" in data:
+    if sha(data)!=EXPECTED_VAL_SHA or b"\r" in data:
         raise RuntimeError("S001 validation indices byte SHA / LF mismatch")
     ids=np.array([int(v) for v in data.decode("ascii").splitlines()],dtype=np.int64)
     if len(ids)!=4884 or len(set(ids.tolist()))!=4884 or list(ids)!=sorted(ids.tolist()):
@@ -50,8 +50,8 @@ def build():
     if not np.array_equal(np.sort(np.concatenate([first,second])),ids):
         raise RuntimeError("halves do not cover exactly S001 validation")
     bytes_map={
-        "selection":("".join(f"{int(x)}\\n" for x in first)).encode("ascii"),
-        "reporting":("".join(f"{int(x)}\\n" for x in second)).encode("ascii"),
+        "selection":("".join(f"{int(x)}\n" for x in first)).encode("ascii"),
+        "reporting":("".join(f"{int(x)}\n" for x in second)).encode("ascii"),
     }
     manifest={
         "schema":"P001_VALIDATION_HALVES_v1",
@@ -75,7 +75,7 @@ def build():
         "no_model_fitting_or_mask_generation":True,
         "reporting_half_role":"held-out for one preregistered evaluation; do not tune or calibrate on it",
     }
-    return bytes_map,(json.dumps(manifest,sort_keys=True,indent=2)+"\\n").encode("utf-8")
+    return bytes_map,(json.dumps(manifest,sort_keys=True,indent=2)+"\n").encode("utf-8")
 
 def main():
     arg=argparse.ArgumentParser()
