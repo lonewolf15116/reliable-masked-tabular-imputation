@@ -32,4 +32,33 @@ jobs:
           python -m venv /tmp/rmti-wheel-smoke
           /tmp/rmti-wheel-smoke/bin/python -m pip install dist/*.whl
           cd /tmp
-          /tmp/rmti-wheel-smoke/bin/python -c "import reliable_masked_tabular_imputation as r; import pandas as pd; x=pd.DataFrame({'a':[1.,2.,3.,4.]}); m=r.make_mcar_mask(x,0.5,random_state=0); assert int(m.to_numpy().sum())==2; assert int(r.apply_mask(x,m).isna().to_numpy().sum())==2; from rmti.masking import generate_mask; assert generate_mask(x,[\'a\'],\'MCAR\',0.5,0).shape==(4,1)"
+          /tmp/rmti-wheel-smoke/bin/python - <<'PY'
+          import pandas as pd
+          import reliable_masked_tabular_imputation as r
+          from rmti.masking import generate_mask
+
+          x = pd.DataFrame({"a": [1., 2., 3., 4.]})
+          m = r.make_mcar_mask(x, 0.5, random_state=0)
+          assert int(m.to_numpy().sum()) == 2
+          assert int(r.apply_mask(x, m).isna().to_numpy().sum()) == 2
+          assert generate_mask(x, ["a"], "MCAR", 0.5, 0).shape == (4, 1)
+          PY
+      - name: Verify wheel licence and module contents
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          wheel, = Path("dist").glob("*.whl")
+          with ZipFile(wheel) as package:
+              paths = set(package.namelist())
+              required = {
+                  "reliable_masked_tabular_imputation/__init__.py",
+                  "reliable_masked_tabular_imputation/masking.py",
+                  "reliable_masked_tabular_imputation/metrics.py",
+                  "rmti/masking.py",
+                  "rmti/schema.py",
+              }
+              assert required <= paths, required - paths
+              assert any(p.endswith("/LICENSE") or "/licenses/LICENSE" in p for p in paths)
+          PY
