@@ -42,6 +42,10 @@ print("RMSE:", masked_rmse(truth, filled, mask))
 
 This library deliberately does **not** label MCAR simulations as MAR, provide a learned imputer, assert non-inferiority, or certify scientific results.
 
+## Legacy research modules
+
+The distribution also retains the existing experimental `rmti.masking` and `rmti.schema` modules for compatibility with the repository's G1A work. These are **not aliases** of the new public API: legacy `generate_mask` uses per-feature counts and supports an experimental MAR branch; new `make_mcar_mask` uses a global exact-budget MCAR sampler and returns a labelled DataFrame. Do not interchange their masks or assume they have identical sampling or validation contracts. The experimental MAR implementation remains **unverified** and outside the supported v0.1.0 utility API.
+
 ## Quality and release
 
 Run `python -m pytest`; CI tests Python 3.10–3.12. Before publishing a distribution, run `python -m build` and `python -m twine check dist/*`, verify the wheel in a clean environment, review dependencies and licence, and record release provenance. Do not interpret passing unit tests as a research gate.
