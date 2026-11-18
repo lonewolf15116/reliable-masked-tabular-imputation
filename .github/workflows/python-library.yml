@@ -62,3 +62,27 @@ jobs:
               assert required <= paths, required - paths
               assert any(p.endswith("/LICENSE") or "/licenses/LICENSE" in p for p in paths)
           PY
+      - name: Verify source archive and SPDX metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import tarfile
+          from email.parser import Parser
+          from zipfile import ZipFile
+
+          sdist, = Path("dist").glob("*.tar.gz")
+          wheel, = Path("dist").glob("*.whl")
+          with tarfile.open(sdist, "r:gz") as archive:
+              names = archive.getnames()
+              for needed in ("LICENSE", "README.md", "pyproject.toml",
+                             "src/rmti/masking.py", "src/rmti/schema.py",
+                             "src/reliable_masked_tabular_imputation/masking.py",
+                             "src/reliable_masked_tabular_imputation/metrics.py"):
+                  assert any(name.endswith("/" + needed) for name in names), needed
+          with ZipFile(wheel) as archive:
+              metadata_file = next(n for n in archive.namelist() if n.endswith(".dist-info/METADATA"))
+              metadata = Parser().parsestr(archive.read(metadata_file).decode())
+              assert metadata["License-Expression"] == "MIT", metadata.items()
+              assert metadata["Name"] == "reliable-masked-tabular-imputation"
+              assert metadata["Version"] == "0.1.0"
+          PY
