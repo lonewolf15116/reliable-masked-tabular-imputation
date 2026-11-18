@@ -6,11 +6,15 @@ Status: **candidate only; no PyPI publication or GitHub release authorised by th
 - [x] Minimal public API for MCAR masks, non-mutating masking, and masked-cell metrics.
 - [x] Input validation and unit tests committed.
 - [x] Python 3.10, 3.11, 3.12 test/build workflow initially passed (run 44407583954).
-- [ ] Latest workflow after clean-wheel smoke-test change passes.
-- [ ] Independent reviewer confirms prior code/API compatibility and confirms no accidental duplicate/conflicting package names.
-- [ ] Confirm all expected files are present in wheel and source distribution.
+- [x] Clean-wheel smoke-test workflow passed on Python 3.10–3.12 (run 44408165317).
+- [ ] Latest workflow including legacy-namespace compatibility checks passes (run 44408514947; pending at review time).
+- [x] Inspected original `rmti.masking` and `rmti.schema`; the new public package is a separate import namespace and both are included in the wheel.
+- [ ] Final CI compatibility tests pass and an independent reviewer checks the two API contracts.
+- [x] CI wheel log lists new public modules and both original `rmti` modules, and both wheel and sdist pass `twine check` (run 44408165317).
+- [ ] Explicit audit of the source distribution contents beyond metadata validation.
 - [ ] Adopt and verify an explicit software licence (owner decision required).
-- [ ] Validate release naming, metadata, dependency ranges, documentation and reproducibility.
+- [x] Project metadata passes `twine check` and new API is documented.
+- [ ] Final review of dependency upper-bound policy, external documentation, clean-venv consistency and release provenance.
 - [ ] Tag a reviewed, immutable release commit.
 
 ## Scientific gate (separate, NOT satisfied)
