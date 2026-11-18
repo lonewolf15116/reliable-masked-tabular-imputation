@@ -42,6 +42,16 @@ print("RMSE:", masked_rmse(truth, filled, mask))
 
 This library deliberately does **not** label MCAR simulations as MAR, provide a learned imputer, assert non-inferiority, or certify scientific results.
 
+## Important evaluation limitations
+
+**Global MCAR is not column-wise MCAR.** The fixed count is allocated uniformly across all initially observed eligible cells. Individual columns can receive zero newly masked cells, particularly if few values were initially observed. The returned mask describes *artificially* hidden entries, not the union with existing missing values. If original missingness was non-MCAR, the overall missingness after applying this mask is not MCAR.
+
+**Dtype contract:** `apply_mask` uses pandas `DataFrame.mask` on a copy. Nullable integer, float, boolean, string and category columns are expected to retain their extension dtypes where missingness is supported. Ordinary NumPy-backed `int64` can promote to `float64` because missing values cannot be represented as ordinary integers. Users should inspect output dtypes when downstream processing depends on them. Categorical values can be masked, but numerical MAE/RMSE require numeric selected cells.
+
+**Metric scope:** `masked_mae` and `masked_rmse` are aggregate errors over selected numeric cells. They do not assess downstream predictive utility, uncertainty, calibration, or statistical validity. Features on different scales may dominate the aggregate; use appropriately scaled inputs or independent per-feature analyses. Numeric overflow during error subtraction raises `ValueError`; scaled reductions avoid unnecessary overflow from squaring or summing large finite errors.
+
+**Non-goals:** This package does not itself fit or select imputers. It does not provide validated MAR/MNAR generation, certify research protocols, or establish superiority of any imputation method.
+
 ## Legacy research modules
 
 The distribution also retains the existing experimental `rmti.masking` and `rmti.schema` modules for compatibility with the repository's G1A work. These are **not aliases** of the new public API: legacy `generate_mask` uses per-feature counts and supports an experimental MAR branch; new `make_mcar_mask` uses a global exact-budget MCAR sampler and returns a labelled DataFrame. Do not interchange their masks or assume they have identical sampling or validation contracts. The experimental MAR implementation remains **unverified** and outside the supported v0.1.0 utility API.
