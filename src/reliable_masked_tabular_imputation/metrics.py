@@ -30,15 +30,28 @@ def _masked_errors(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFram
         raise TypeError("selected truth and imputed cells must be numeric") from exc
     if not np.isfinite(actual).all() or not np.isfinite(predicted).all():
         raise ValueError("selected cells must contain finite numeric values")
-    return predicted - actual
+    with np.errstate(over="ignore", invalid="ignore"):
+        errors = predicted - actual
+    if not np.isfinite(errors).all():
+        raise ValueError("numeric overflow when computing masked-cell errors")
+    return errors
 
 
 def masked_mae(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFrame) -> float:
     """Mean absolute error on hidden numeric cells only."""
-    return float(np.abs(_masked_errors(truth, imputed, mask)).mean())
+    errors = np.abs(_masked_errors(truth, imputed, mask))
+    # A mean of finite errors is finite; scaled sum avoids accumulator overflow.
+    scale = float(np.max(errors))
+    if scale == 0.0:
+        return 0.0
+    return float(np.mean(errors / scale) * scale)
 
 
 def masked_rmse(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFrame) -> float:
     """Root mean squared error on hidden numeric cells only."""
     errors = _masked_errors(truth, imputed, mask)
-    return float(np.sqrt(np.mean(np.square(errors))))
+    scale = float(np.max(np.abs(errors)))
+    if scale == 0.0:
+        return 0.0
+    # Scale first so squaring large-but-finite errors cannot overflow.
+    return float(np.sqrt(np.mean(np.square(errors / scale))) * scale)
