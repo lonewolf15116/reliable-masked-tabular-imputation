@@ -145,3 +145,64 @@ Write append-only or revision-tracked records. Do not put secrets or private raw
 - [Published v0.1.0 provenance issue #7](https://github.com/lonewolf15116/reliable-masked-tabular-imputation/issues/7) — historical exact-byte rule was not met, even though subsequent read-only archive forensics found matching extracted contents and timestamp differences.
 
 This protocol must be revised and frozen only after review. It is **not** itself preregistration, approval, evidence of imputation superiority, or permission to run a benchmark.
+
+
+---
+
+## 8. IR001 independent review disposition and v1.1 revision candidates (2026-11-20)
+
+**External review supplied:** `RMTI-SPV1-IR001`, decision **REVISE**. The report says it inspected PR #10 and the README, but **did not** execute a benchmark, verify the research decision ledger/R002/R003, or independently validate the cited literature beyond search snippets. This is a methodological review of the draft, not approval to execute.
+
+The eight corrections below are **proposed design choices for reviewer scrutiny**, not a frozen preregistration or proof that the concerns are closed. No datasets have been acquired or analysed for this study.
+
+| Finding | Proposed v1.1 response | Closure state |
+|---|---|---|
+| M-01 dataset set missing | Freeze an eligible, licensed, traceable dataset inventory with original SHA-256, original download/source, version, target and feature schema, missingness audit, and independent holdout allocation | **OPEN**: no verified source-byte hashes or frozen list yet |
+| M-02 per-feature support missing | Candidate threshold: at least **10 artificially masked finite numeric cells per included feature, per evaluation cell**; otherwise flag unsupported and exclude that feature from scale-normalised *per-feature* aggregation, with counts/coverage and full exclusion table | Proposed only; check how exclusions influence comparisons |
+| M-03 baseline fitting ambiguous | Candidate train-fitted mean/median and training-reference KNN baselines with predeclared numeric-only features, deterministic preprocessing, 5 KNN neighbours, uniform weights, and no use of test statistics or test data as KNN reference points | Proposed; exact library/version/API implementation requires external check |
+| M-04 downstream endpoint optional | **Restrict primary comparison to two reconstruction-based rankings**: pooled masked-cell MAE vs equal-feature-weighted training-scale-normalised MAE. Downstream prediction becomes a distinct **exploratory**, separately approved extension | Proposed clarification |
+| M-05 categorical columns ambiguous | Primary analysis uses **numeric-only features**; exclude categorical features from primary estimands, disclose exclusion counts and no claims about mixed-type imputation | Proposed clarification |
+| Statistical plan absent | Set candidate paired contrast, effect threshold, tie margin, multiplicity family and precision target below | **OPEN** until dataset count/precision and independent statistician review |
+| Split/protection ambiguous | Precommit split IDs, train-only preprocessing, validation selection rules, signed/sealed test hashes and independent release authority | **OPEN** until real split manifests and reviewer specified |
+| Manifest/literature incomplete | Define candidate canonical manifest rules; compile dated 5–10-paper novelty matrix from primary sources; require independent check | **OPEN**: primary literature and verified manifest not yet supplied |
+
+### 8.1 Candidate estimand and metric definitions
+
+- **Unit:** dataset; multiple mask seeds and rates within each dataset are repeated measures. Count no masked cell as an independent external replicate.
+- **Compared methods:** candidate train-fitted mean, median, and KNN; method identity and deterministic settings must be frozen before dataset outcomes are inspected.
+- **Primary endpoint A:** the existing RMTI `masked_mae` pooled over newly masked eligible numeric cells in the evaluation subset. All methods must be scored on the **same mask**.
+- **Primary endpoint B:** compute per-feature absolute error on newly masked cells, divide by **training-only robust scale** defined as IQR; average with **equal weight across supported features**. Features with training IQR = 0 or fewer than 10 selected masked cells are **unsupported** and excluded from endpoint B; disclose the unsupported count. If no features remain, mark the dataset/rate/seed cell **UNEVALUABLE**, not a zero result.
+- **Critical comparability rule:** for a pair of methods, compare endpoint A and B **on the same common supported feature subset**, rather than comparing an all-feature pooled score to an exclusion-based equal-weight score. Also report the full eligible-feature pooled error as supplementary information. This avoids attributing a reversal solely to changing the feature set.
+- **Rank inversion:** for a prespecified method pair, method X beats Y on A but Y beats X on B, or vice versa; both improvements must exceed their endpoint-specific **5% relative margin**, measured relative to the larger absolute pairwise score or a predeclared nonzero numerical floor. The 5% threshold is **a candidate smallest practically relevant contrast**, not an empirically justified SESOI; reviewer must approve a numerical-floor policy and justify this threshold before freeze. Ties inside the margin are **TIE**, not reversals.
+- **Missing/failing methods:** retain failure rows and their reason; exclude failed pairwise comparisons from the conditional inversion calculation but report numerator and denominator, failure rate and an explicit worst-case sensitivity bound. No imputer may silently receive test labels or true masked test entries.
+
+### 8.2 Proposed split, fitting and data controls
+
+1. Eligible training/validation/holdout sets must be defined and cryptographically sealed **before** imputation or parameter selection. Candidate split fractions `60/20/20` are a design proposal, not a justification. Use a documented group/time split in place of random splitting whenever independence requires it; record entity leakage checks.
+2. Precommit exact split IDs and seed schedules. The true values for artificially masked evaluation cells are kept solely for metric calculation and are not available to imputers or preprocessing.
+3. For every method, fit reference statistics and any scaling/encoder on **masked training data only**; choose hyperparameters on validation data only; **freeze** before sealed holdout evaluation. KNN references consist solely of training examples. Explicitly specify how training missingness is introduced and how validation/test missingness intervention is replicated, to avoid inconsistent training/test regimes.
+4. Any test-adaptive mean/median fill, KNN test-to-test neighbour search, refit on test data, metric-driven method selection on test, or post hoc removal of failed seeds is forbidden.
+5. Report a method-fit matrix covering numerical dtype compatibility, no-observed-value handling, nonfinite input policy, constant features, KNN distance/weights/neighbour count, implementation package/version, and deterministic/randomness controls. **No benchmark implementation is authorised until this table is externally checked.**
+
+### 8.3 Statistical decision-plan candidate
+
+- **Data sufficiency remains UNRESOLVED:** review recommends at least 3–5 datasets; a small set cannot establish a broad generalisation claim. Candidate planning target is **at least 8 independent datasets**, distinct in feature-scale dispersion and correlation structure, plus **at least one separately sealed external confirmation dataset**. This number is a planning target, **not a verified power/precision calculation**. If source provenance, licensing or sample-size precision cannot be met, **STOP** instead of relaxing after looking at results.
+- **Primary predeclared comparison family:** 3 method pairs × 4 MCAR rates = **12 primary contrasts** for the binary practically relevant rank-inversion event; seed-level results aggregated within dataset and rate before across-dataset inference. The 5 proposed seeds `{11,23,37,53,71}` are within-dataset repeats and not independent datasets.
+- **Candidate inferential rule:** family-wise Holm correction for 12 primary contrast tests, with a predeclared two-sided 5% family-wise error rate. **No statistical test, effect-size estimator, null model or dependence correction is yet frozen**; reviewer/statistician must select appropriate dataset-level uncertainty intervals and decision rules, including a tie/failure rule, *before* any run.
+- **Precision planning requirement:** demonstrate an interval-width or simulation-based power argument that accounts for the number of **independent datasets** and high within-dataset correlation. Record a clear minimal relevant inversion-frequency difference, expected dataset heterogeneity and holdout confirmation criterion before freeze; do not reuse the candidate 5% score margin as a power calculation.
+- **Negative/inconclusive result:** report if 0/12 corrected tests provide robust evidence or the effect does not replicate, without changing cutoffs or declaring a discovery. A sample too small for acceptable uncertainty is **INCONCLUSIVE**, not evidence of absence.
+
+### 8.4 Proposed pre-execution manifest contract
+
+Before the GO decision, a reviewer must inspect the exact schema and verify a **canonical UTF-8 JSON** encoding using sorted object keys, no insignificant spaces, a declared standard for float/NaN representation (**nonfinite JSON disallowed**), an explicit Unicode normalisation rule and stable array ordering. The SHA-256 covers the exact canonical byte sequence. Store a signed or review-attested **pre-execution** digest for the protocol, dataset inventory, split/mask-seed schedule, baseline plan and analysis plan. Compare these frozen digests immediately before execution; abort on mismatch.
+
+Results and environment fingerprints are *post-execution append-only records* linked to the pre-execution manifest by its digest; do not pretend the resulting output hash could be frozen before the run. Store package artifact SHA-256, Git commit and run environment separately. PostgreSQL may index these references but must never be the sole provenance record.
+
+### 8.5 Literature, dataset and approval blocker ledger
+
+**Novelties not established:** The reviewer characterises the primary metric-ranking phenomenon as incremental and did not perform systematic primary-source verification. Do not cite the review's unverified snippets as if they settle novelty. Create a **dated 5–10-entry primary literature matrix** listing bibliographic identifiers/DOI or stable URL, exact research setting, missingness mechanism, compared metrics, observed findings, methodological overlaps and the **specific** proposed conditional-boundary contribution. If this shows the question already answered, record **NOT NOVEL** and stop or reframe *before* data access.
+
+**Dataset blockers:** No verified list of original dataset URLs, licence terms, source-byte SHA-256, split manifests or independent holdout allocation is supplied. The Adult dataset remains off-limits until R003 is resolved; R002 MAR validation remains excluded. No dataset placeholders may be misrepresented as acquisition evidence.
+
+**Gate decision:** IR001 = **REVISE**. P1 remains **DRAFT / OPEN**, P2 and P3 remain **BLOCKED / NOT AUTHORISED**. Neither this proposed revision nor a passing CI check approves benchmarks, model fitting, real-dataset processing, MAR/MNAR studies, publication, v0.2 work or a scientific discovery. Seek a **second independent review** after completing the real literature, dataset, statistical precision and manifest evidence.
+
