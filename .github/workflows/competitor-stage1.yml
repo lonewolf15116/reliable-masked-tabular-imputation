@@ -1,0 +1,75 @@
+name: Stage 1 competitor live installation and API probes
+
+on:
+  push:
+    branches: ["feature/competitor-stage1"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  competitor-probe:
+    name: Probe ${{ matrix.competitor }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - competitor: qolmat
+            package: qolmat==0.2.0
+          - competitor: missmecha
+            package: missmecha-py==0.1.2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install isolated competitor dependencies and record setup
+        id: install
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: |
+          mkdir -p competitor-results
+          date -u --iso-8601=seconds | tee competitor-results/install_started_utc.txt
+          /usr/bin/time -f 'elapsed_wall_seconds=%e peak_kb=%M' -o competitor-results/install_resource.txt \
+            python -m pip install --disable-pip-version-check "$PACKAGE" pandas numpy scikit-learn \
+            >competitor-results/install.log 2>&1 || {
+              code=$?
+              cat competitor-results/install.log
+              echo "INSTALL_FAILED_EXIT=$code" >competitor-results/install_status.txt
+              exit "$code"
+            }
+          echo INSTALL_OK >competitor-results/install_status.txt
+          python -m pip freeze > competitor-results/pip_freeze.txt
+          python -m pip inspect > competitor-results/pip_inspect.json
+          date -u --iso-8601=seconds > competitor-results/install_finished_utc.txt
+      - name: Run native competitor probes
+        if: steps.install.outcome == 'success'
+        shell: bash
+        env:
+          COMPETITOR: ${{ matrix.competitor }}
+        run: |
+          python prospective/competitor_stage1/live_probe.py "$COMPETITOR"
+      - name: Record failure state if install blocked
+        if: always() && steps.install.outcome != 'success'
+        shell: bash
+        env:
+          COMPETITOR: ${{ matrix.competitor }}
+        run: |
+          mkdir -p competitor-results
+          python - <<'PY'
+          import json,os,pathlib
+          x={"competitor":os.environ["COMPETITOR"],"status":"INSTALL_FAILED",
+             "scope":"Installation blocker only; no competitive capability conclusion"}
+          pathlib.Path("competitor-results/"+os.environ["COMPETITOR"]+"_results.json").write_text(json.dumps(x,indent=2)+"\n")
+          PY
+      - name: Upload evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-${{ matrix.competitor }}-evidence
+          path: competitor-results/
+          if-no-files-found: warn
