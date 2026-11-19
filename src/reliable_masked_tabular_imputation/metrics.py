@@ -23,9 +23,14 @@ def _masked_errors(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFram
     # Convert only selected cells; unrelated categorical columns may coexist.
     truth_values = truth.to_numpy(dtype=object)[selected]
     pred_values = imputed.to_numpy(dtype=object)[selected]
-    # float64 represents every integer in [-2**53, 2**53] exactly.
-    # Reject integer inputs beyond this conservative boundary before coercion.
+    # Validate selected scalar types before coercion: Decimal/Fraction and
+    # arbitrary object-backed values are outside the float64 scoring contract.
     for value in (*truth_values, *pred_values):
+        if not isinstance(value, (bool, np.bool_, int, np.integer, float, np.floating)):
+            raise TypeError("selected cells must use supported Python/NumPy numeric scalar types")
+        if isinstance(value, np.floating) and np.dtype(type(value)).itemsize > 8:
+            raise TypeError("selected extended-precision floats are not supported")
+        # float64 represents all integer values with abs(value) <= 2**53.
         if (isinstance(value, (int, np.integer))
                 and not isinstance(value, (bool, np.bool_))
                 and abs(int(value)) > 2**53):
