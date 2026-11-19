@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - .github/workflows/pypi-provenance-audit.yml
+  pull_request:
+    paths:
+      - .github/workflows/pypi-provenance-audit.yml
   workflow_dispatch:
 permissions:
   contents: read
