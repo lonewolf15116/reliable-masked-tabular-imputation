@@ -23,6 +23,13 @@ def _masked_errors(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFram
     # Convert only selected cells; unrelated categorical columns may coexist.
     truth_values = truth.to_numpy(dtype=object)[selected]
     pred_values = imputed.to_numpy(dtype=object)[selected]
+    # float64 represents every integer in [-2**53, 2**53] exactly.
+    # Reject integer inputs beyond this conservative boundary before coercion.
+    for value in (*truth_values, *pred_values):
+        if (isinstance(value, (int, np.integer))
+                and not isinstance(value, (bool, np.bool_))
+                and abs(int(value)) > 2**53):
+            raise ValueError("selected integer exceeds float64 exactness boundary (abs(value) > 2**53)")
     try:
         actual = np.asarray(truth_values, dtype=float)
         predicted = np.asarray(pred_values, dtype=float)
@@ -38,7 +45,11 @@ def _masked_errors(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFram
 
 
 def masked_mae(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFrame) -> float:
-    """Mean absolute error on hidden numeric cells only."""
+    """Mean absolute error on hidden numeric cells only.
+
+    Raise ValueError for selected integer values with abs(value) > 2**53,
+    since conversion to float64 may silently lose integer precision.
+    """
     errors = np.abs(_masked_errors(truth, imputed, mask))
     # A mean of finite errors is finite; scaled sum avoids accumulator overflow.
     scale = float(np.max(errors))
@@ -48,7 +59,11 @@ def masked_mae(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFrame) -
 
 
 def masked_rmse(truth: pd.DataFrame, imputed: pd.DataFrame, mask: pd.DataFrame) -> float:
-    """Root mean squared error on hidden numeric cells only."""
+    """Root mean squared error on hidden numeric cells only.
+
+    Raise ValueError for selected integer values with abs(value) > 2**53,
+    since conversion to float64 may silently lose integer precision.
+    """
     errors = _masked_errors(truth, imputed, mask)
     scale = float(np.max(np.abs(errors)))
     if scale == 0.0:
