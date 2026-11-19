@@ -37,7 +37,7 @@ print("RMSE:", masked_rmse(truth, filled, mask))
 
 - `make_mcar_mask(frame, rate, random_state=0, columns=None)` uniformly samples **exactly floor(rate × eligible observed cells)** without replacement. The boolean mask marks *newly* hidden cells only. It never targets originally missing cells. An integer seed repeats the result; a supplied NumPy Generator is consumed. Selection is global, not column-stratified.
 - `apply_mask(frame, mask)` returns a masked copy, preserving the input. The mask must have identical ordered index/columns and boolean entries.
-- `masked_mae(truth, imputed, mask)` and `masked_rmse(...)` score **only True mask cells**. These cells must be finite numeric values in both truth and prediction. Empty masks raise `ValueError`. Other categorical columns are allowed.
+- `masked_mae(truth, imputed, mask)` and `masked_rmse(...)` score **only True mask cells**. These cells must be finite numeric values in both truth and prediction. For integer-typed selected values with `abs(value) > 2**53`, both raise `ValueError` before conversion to `float64` to avoid silent precision loss. Values exactly equal to `±2**53` are allowed. Empty masks raise `ValueError`. Other categorical columns are allowed.
 - Unique row and column labels are required for mask generation. A rate of 0 or no eligible cells yields an all-False mask.
 
 This library deliberately does **not** label MCAR simulations as MAR, provide a learned imputer, assert non-inferiority, or certify scientific results.
@@ -46,7 +46,9 @@ This library deliberately does **not** label MCAR simulations as MAR, provide a 
 
 **Global MCAR is not column-wise MCAR.** The fixed count is allocated uniformly across all initially observed eligible cells. Individual columns can receive zero newly masked cells, particularly if few values were initially observed. The returned mask describes *artificially* hidden entries, not the union with existing missing values. If original missingness was non-MCAR, the overall missingness after applying this mask is not MCAR.
 
-**Dtype contract:** `apply_mask` uses pandas `DataFrame.mask` on a copy. Nullable integer, float, boolean, string and category columns are expected to retain their extension dtypes where missingness is supported. Ordinary NumPy-backed `int64` can promote to `float64` because missing values cannot be represented as ordinary integers. Users should inspect output dtypes when downstream processing depends on them. Categorical values can be masked, but numerical MAE/RMSE require numeric selected cells.
+**Dtype contract:** `apply_mask` never mutates the caller's DataFrame. NumPy-backed integer columns receiving a new masked value are first converted to nullable pandas `Int64` or `UInt64` so that unmasked integers retain their exact values, including `int64`/`uint64` extrema. Nullable integer, float, boolean, string and category columns retain their supported extension dtypes. Categorical values can be masked, but numerical MAE/RMSE require numeric selected cells.
+
+**Missingness and nonfinite contract:** `NaN` and pandas `NA` are missing and ineligible for newly generated MCAR masks. `+inf` and `-inf` are considered nonmissing (and hence eligible) by pandas missingness semantics, but selected infinite values are rejected as nonfinite during scoring (`ValueError`).
 
 **Metric scope:** `masked_mae` and `masked_rmse` are aggregate errors over selected numeric cells. They do not assess downstream predictive utility, uncertainty, calibration, or statistical validity. Features on different scales may dominate the aggregate; use appropriately scaled inputs or independent per-feature analyses. Numeric overflow during error subtraction raises `ValueError`; scaled reductions avoid unnecessary overflow from squaring or summing large finite errors.
 
