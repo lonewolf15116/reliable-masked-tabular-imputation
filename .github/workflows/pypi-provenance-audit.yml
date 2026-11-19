@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -66,4 +67,57 @@ jobs:
         with:
           name: rmti-published-audit
           path: published_audit.json
+          if-no-files-found: error
+
+      - name: Compare published distributions with approved candidate artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import hashlib, io, json, os, tarfile, urllib.request, zipfile
+
+          def get(url, headers=None):
+              request = urllib.request.Request(url, headers={"User-Agent": "rmti-archive-audit/1.0", **(headers or {})})
+              with urllib.request.urlopen(request, timeout=60) as r:
+                  return r.read()
+
+          pypi = json.loads(get("https://pypi.org/pypi/reliable-masked-tabular-imputation/0.1.0/json"))
+          urls = {x["filename"]: x for x in pypi["urls"]}
+          headers = {"Authorization": "Bearer " + os.environ["GH_TOKEN"], "Accept": "application/vnd.github+json"}
+          raw = get("https://api.github.com/repos/lonewolf15116/reliable-masked-tabular-imputation/actions/artifacts/14486589094/zip", headers)
+          with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+              evidence = {p: archive.read(p) for p in archive.namelist() if not p.endswith("/")}
+          print("ACCEPTED_ARTIFACT_ENTRIES", sorted(evidence))
+          report = {}
+          for filename, meta in urls.items():
+              matches = [v for k,v in evidence.items() if k.endswith(filename)]
+              assert len(matches) == 1, (filename, len(matches))
+              accepted, published = matches[0], get(meta["url"])
+              actual = hashlib.sha256(published).hexdigest()
+              assert actual == meta["digests"]["sha256"]
+              if filename.endswith(".whl"):
+                  def members(data):
+                      with zipfile.ZipFile(io.BytesIO(data)) as a:
+                          return {n: hashlib.sha256(a.read(n)).hexdigest() for n in a.namelist() if not n.endswith("/")}
+              else:
+                  def members(data):
+                      with tarfile.open(fileobj=io.BytesIO(data),mode="r:gz") as a:
+                          return {m.name.split("/",1)[-1]: hashlib.sha256(a.extractfile(m).read()).hexdigest() for m in a.getmembers() if m.isfile()}
+              left,right=members(accepted),members(published)
+              changed=sorted(p for p in left.keys() & right.keys() if left[p]!=right[p])
+              only_left=sorted(set(left)-set(right))
+              only_right=sorted(set(right)-set(left))
+              source_changed=[p for p in changed if p.endswith(".py")]
+              print("BINARY", filename, "accepted", hashlib.sha256(accepted).hexdigest(), "pypi", actual,flush=True)
+              print("ONLY_ACCEPTED",only_left,flush=True)
+              print("ONLY_PYPI",only_right,flush=True)
+              print("CONTENT_CHANGED",changed,flush=True)
+              print("PYTHON_SOURCE_CHANGED",source_changed,flush=True)
+              report[filename]={"accepted_sha256":hashlib.sha256(accepted).hexdigest(),"pypi_sha256":actual,"only_accepted":only_left,"only_pypi":only_right,"content_changed":changed,"python_source_changed":source_changed}
+          with open("candidate_vs_pypi.json","w") as h: json.dump(report,h,indent=2,sort_keys=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rmti-candidate-vs-pypi-archive-comparison
+          path: candidate_vs_pypi.json
           if-no-files-found: error
