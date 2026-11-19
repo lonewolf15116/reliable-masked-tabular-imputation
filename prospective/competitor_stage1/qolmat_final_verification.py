@@ -29,7 +29,7 @@ def trial(n=100,present=10,rate=.2,splits=1):
     df=gen(n,present)
     hole=missing_patterns.UniformHoleGenerator(n_splits=splits,subset=df.columns,ratio_masked=rate,random_state=np.random.RandomState(11))
     mask=hole.split(df)
-    return {"rows":n,"observed_sparse":int(df.sparse.notna().sum()),"requested_n_approximately":int(rate*n),
+    return {"rows":n,"observed_sparse":int(df["sparse"].notna().sum()),"requested_n_approximately":int(rate*n),
             "mask_counts":[x.sum().astype(int).to_dict() for x in mask]}
 
 for present in (5,10,19,20,30,90):
@@ -69,6 +69,10 @@ def compare_with_external_mask():
             "fixed_mask_sha256":hashlib.sha256(fixed.tobytes()).hexdigest(),
             "train_only_fit_enforced":False}
 record("external_supplied_mask_generator",compare_with_external_mask)
+out["sampling_logic"] = [
+    line.strip() for line in inspect.getsource(missing_patterns.UniformHoleGenerator.generate_mask).splitlines()
+    if any(term in line for term in ("choice(", "ratio_masked", "n_masked", "n_obs", "notna", "isna", "size=", "indices"))
+]
 out["interpretation"]=[
  "Generated-mask counts and failures depend on native API choices; never equate with real-world prevalence without proof.",
  "Supplied-mask generator integration is not proof of deployment-style train-only fit.",
