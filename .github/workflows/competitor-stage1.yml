@@ -34,8 +34,10 @@ jobs:
         run: |
           mkdir -p competitor-results
           date -u --iso-8601=seconds | tee competitor-results/install_started_utc.txt
+          EXTRA=()
+          if [[ "$PACKAGE" == missmecha-py* ]]; then EXTRA=(IPython); fi
           /usr/bin/time -f 'elapsed_wall_seconds=%e peak_kb=%M' -o competitor-results/install_resource.txt \
-            python -m pip install --disable-pip-version-check "$PACKAGE" pandas numpy scikit-learn \
+            python -m pip install --disable-pip-version-check "$PACKAGE" "${EXTRA[@]}" pandas numpy scikit-learn \
             >competitor-results/install.log 2>&1 || {
               code=$?
               cat competitor-results/install.log
