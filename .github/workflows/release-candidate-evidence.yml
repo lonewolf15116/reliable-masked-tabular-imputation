@@ -1,0 +1,41 @@
+name: Release candidate artifact evidence
+on:
+  push:
+    branches: ["feature/reliable-library-api"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  artifact-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build source archive, wheel and sdist from exact checked-out commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p candidate-evidence
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          printf '%s\n' "$GITHUB_SHA" > candidate-evidence/COMMIT_SHA.txt
+          git archive --format=tar.gz --output=candidate-evidence/source-snapshot.tar.gz "$GITHUB_SHA"
+          python -m pip install --upgrade build twine
+          python -m build --wheel --sdist
+          python -m twine check dist/*
+          cp dist/* candidate-evidence/
+          cd candidate-evidence
+          sha256sum source-snapshot.tar.gz *.whl *.tar.gz | tee SHA256SUMS
+          printf '\nCommit: %s\n' "$GITHUB_SHA"
+          cat SHA256SUMS
+      - name: Upload candidate evidence only (never publish)
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-evidence
+          path: candidate-evidence/
+          retention-days: 90
+          if-no-files-found: error
