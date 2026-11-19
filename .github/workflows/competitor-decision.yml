@@ -1,0 +1,55 @@
+name: Competitor decision trial Horse Colic
+on:
+  push:
+    branches: ["feature/competitor-decision-test"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - competitor: baseline
+            package: ""
+          - competitor: qolmat
+            package: "qolmat==0.2.0"
+          - competitor: missmecha
+            package: "missmecha-py==0.1.2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies in isolated job
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: |
+          mkdir -p decision-results
+          echo "start_utc=$(date -u --iso-8601=seconds)" > decision-results/installation.txt
+          if [[ -n "$PACKAGE" ]]; then
+            if [[ "$PACKAGE" == missmecha-py* ]]; then
+              /usr/bin/time -f "install_wall_seconds=%e" -a -o decision-results/installation.txt python -m pip install "$PACKAGE" IPython numpy pandas scikit-learn
+            else
+              /usr/bin/time -f "install_wall_seconds=%e" -a -o decision-results/installation.txt python -m pip install "$PACKAGE" numpy pandas scikit-learn
+            fi
+          else
+            /usr/bin/time -f "install_wall_seconds=%e" -a -o decision-results/installation.txt python -m pip install numpy pandas scikit-learn
+          fi
+          python -m pip freeze > decision-results/pip_freeze.txt
+          echo "end_utc=$(date -u --iso-8601=seconds)" >> decision-results/installation.txt
+      - name: Run fixed-contract external reference and competitor-native probe
+        env:
+          COMPETITOR: ${{ matrix.competitor }}
+        run: python prospective/competitor_stage1/horse_colic_decision.py "$COMPETITOR"
+      - name: Upload per-seed data and failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: horse-colic-${{ matrix.competitor }}-decision
+          path: decision-results/
+          if-no-files-found: warn
