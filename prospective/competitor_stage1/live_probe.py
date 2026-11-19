@@ -97,9 +97,10 @@ check("custom_imputer_baseline", custom_train_only)
 if competitor == "qolmat":
     def native_comparator():
         from qolmat.benchmark import comparator, missing_patterns
+        from qolmat.imputations import imputers
         generator = missing_patterns.UniformHoleGenerator(n_splits=2, ratio_masked=0.2)
         compare = comparator.Comparator(
-            {"median_sklearn": SimpleImputer(strategy="median")},
+            {"median_qolmat": imputers.ImputerSimple(strategy="median")},
             generator_holes=generator, metrics=["mae"]
         )
         # This is the library's documented-style comparator, NOT train-only eval.
@@ -107,10 +108,17 @@ if competitor == "qolmat":
         return {"comparison_type": type(comparison).__name__,
                 "comparison": comparison.to_string()[:3000]}
     check("native_comparator", native_comparator)
+    class QolmatCustomMedian(CustomMedian):
+        """Documented adapter: qolmat expects fit_transform and labelled DataFrames."""
+        def transform(self, X):
+            result = super().transform(X)
+            return pd.DataFrame(result, index=X.index, columns=X.columns)
+        def fit_transform(self, X, y=None):
+            return self.fit(X).transform(X)
     def native_custom():
         from qolmat.benchmark import comparator, missing_patterns
         compare = comparator.Comparator(
-            {"custom_median": CustomMedian()},
+            {"custom_median": QolmatCustomMedian()},
             generator_holes=missing_patterns.UniformHoleGenerator(n_splits=2,ratio_masked=0.2),
             metrics=["mae"]
         )
