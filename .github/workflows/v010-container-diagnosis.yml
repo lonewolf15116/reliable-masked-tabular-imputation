@@ -1,0 +1,78 @@
+name: Diagnose v0.1.0 published archive containers
+on:
+  push:
+    paths:
+      - .github/workflows/v010-container-diagnosis.yml
+      - scripts/audit_v010_archive_containers.py
+  pull_request:
+    paths:
+      - .github/workflows/v010-container-diagnosis.yml
+      - scripts/audit_v010_archive_containers.py
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  read-only-provenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Compare outer archive container metadata against original approved artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/audit_v010_archive_containers.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v010-archive-container-diagnosis
+          path: archive_container_diagnosis.json
+          if-no-files-found: warn
+  clean-pypi-wheel-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Download actual PyPI wheel and verify published SHA-256
+        run: |
+          python -m pip download --no-deps --only-binary=:all: \
+            --index-url https://pypi.org/simple/ \
+            reliable-masked-tabular-imputation==0.1.0 -d /tmp/rmti-published
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          wheel, = Path("/tmp/rmti-published").glob("*.whl")
+          sha = hashlib.sha256(wheel.read_bytes()).hexdigest()
+          expected = "761b17fc38a160ca20d09bf311eef3c9ab18c918982e55c46009515eb3367f48"
+          assert sha == expected, (sha, expected)
+          print("PYPI_WHEEL_SHA256_VERIFIED", sha, flush=True)
+          PY
+      - name: Install in clean venv and test package from outside checkout
+        run: |
+          python -m venv /tmp/rmti-pypi-install
+          /tmp/rmti-pypi-install/bin/python -m pip install --index-url https://pypi.org/simple/ "numpy>=1.24" "pandas>=2.0"
+          /tmp/rmti-pypi-install/bin/python -m pip install --no-deps /tmp/rmti-published/*.whl
+          cd /tmp
+          /tmp/rmti-pypi-install/bin/python - <<'PY'
+          import importlib.metadata
+          import math
+          import numpy as np
+          import pandas as pd
+          import reliable_masked_tabular_imputation as r
+          from rmti.masking import generate_mask
+          assert importlib.metadata.version("reliable-masked-tabular-imputation") == "0.1.0"
+          frame = pd.DataFrame({"x": [1.0, 2.0, 3.0, 4.0]})
+          mask = r.make_mcar_mask(frame, 0.5, random_state=42)
+          assert int(mask.to_numpy().sum()) == 2
+          hidden = r.apply_mask(frame, mask)
+          assert int(hidden.isna().to_numpy().sum()) == 2
+          prediction = frame + 1.0
+          assert math.isclose(r.masked_mae(frame, prediction, mask), 1.0)
+          assert math.isclose(r.masked_rmse(frame, prediction, mask), 1.0)
+          assert generate_mask(frame, ["x"], "MCAR", 0.5, 0).shape == (4, 1)
+          print("CLEAN_PYPI_WHEEL_INSTALL_AND_API_SMOKE_PASS", flush=True)
+          print("RUNTIME_VERSIONS", {"numpy": np.__version__, "pandas": pd.__version__}, flush=True)
+          PY
