@@ -1,0 +1,64 @@
+name: Add v0.1.0 post-publication disclosure
+on:
+  push:
+    paths:
+      - .github/workflows/repair-v010-release-notes.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  disclose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Append dated governance and provenance addendum
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          url = "https://api.github.com/repos/" + os.environ["GH_REPO"] + "/releases/tags/v0.1.0"
+          headers = {
+              "Authorization": "Bearer " + os.environ["GH_TOKEN"],
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "rmti-v010-release-disclosure/1.0",
+          }
+          req = urllib.request.Request(url, headers=headers)
+          with urllib.request.urlopen(req, timeout=30) as resp:
+              release = json.load(resp)
+          body = release.get("body") or ""
+          marker = "## Post-publication provenance and review disclosure (2026-11-19)"
+          addendum = """
+          ## Post-publication provenance and review disclosure (2026-11-19)
+
+          **Important:** This GitHub release and PyPI v0.1.0 were published, but an independent-of-publishing read-only audit found **both PyPI distribution SHA-256 hashes differ from the previously approved candidate artifacts**. The original artifact-acceptance record in issues #3–#5 **does not verify the uploaded PyPI bytes**. A separate published-artifact integrity and owner-risk assessment remains **OPEN** in issue #7. This mismatch does not by itself establish a functional defect, but byte identity is **not** satisfied.
+
+          | PyPI file | Original approved SHA-256 | PyPI published SHA-256 |
+          |---|---|---|
+          | `reliable_masked_tabular_imputation-0.1.0-py3-none-any.whl` | `1a70b24bac9dd6f0873c7ae690e9edabb792946cc7f0fa8e92e716c6da7c635a` | `761b17fc38a160ca20d09bf311eef3c9ab18c918982e55c46009515eb3367f48` |
+          | `reliable_masked_tabular_imputation-0.1.0.tar.gz` | `bab9c94375dfb47ed4002d9910e01b9aae53940f9b95c53a9690e3836e693c7c` | `222775460729549de57a4b3d348784dba4474a3e078010be710493d528ce3d66` |
+
+          **Verification and governance:** Original candidate artifact integrity was evaluated through an **AI-assisted executable-verification process** (record #3). There is **no verified independent human reviewer identity and no signed independent human audit**. The Gate 5 reviewer and release authoriser were the same party, and the one-release human-reviewer-identity waiver was recorded in #4. That waiver did **not** waive the exact-binary/no-rebuild condition. No subsequent assessment of the mismatching PyPI artifacts is claimed.
+
+          **Supported scope:** The public utility API is only `make_mcar_mask`, `apply_mask`, `masked_mae`, and `masked_rmse`. The legacy `rmti` namespace is **experimental**. There is no verified MAR/MNAR mechanism, scientifically validated imputation estimator, or superiority/non-inferiority claim.
+
+          **Deferred Low item:** **F-IR-008** recommends a dedicated multi-cell MAE/RMSE regression near the `2**53` integer-precision boundary; it is not a demonstrated defect.
+
+          Tracking and original evidence: [#3](https://github.com/lonewolf15116/reliable-masked-tabular-imputation/issues/3), [#4](https://github.com/lonewolf15116/reliable-masked-tabular-imputation/issues/4), [#5](https://github.com/lonewolf15116/reliable-masked-tabular-imputation/issues/5), [#7](https://github.com/lonewolf15116/reliable-masked-tabular-imputation/issues/7). The v0.2 research and commercial hold remains in force through 2026-12-17 23:59 UTC; no new authorisation is implied by this update.
+          """
+          if marker in body:
+              print("Disclosure marker already exists; leaving release unchanged")
+          else:
+              updated = body.rstrip() + "\n\n---\n\n" + addendum.strip() + "\n"
+              patch = json.dumps({"body": updated}).encode("utf-8")
+              request = urllib.request.Request(
+                  "https://api.github.com/repos/" + os.environ["GH_REPO"] + "/releases/" + str(release["id"]),
+                  data=patch,
+                  headers={**headers,"Content-Type":"application/json"},
+                  method="PATCH",
+              )
+              with urllib.request.urlopen(request, timeout=30) as resp:
+                  edited = json.load(resp)
+              assert marker in (edited.get("body") or "")
+              print("Disclosure appended to release", edited["html_url"])
+          PY
