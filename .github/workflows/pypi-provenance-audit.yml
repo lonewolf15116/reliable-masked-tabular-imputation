@@ -84,7 +84,20 @@ jobs:
           pypi = json.loads(get("https://pypi.org/pypi/reliable-masked-tabular-imputation/0.1.0/json"))
           urls = {x["filename"]: x for x in pypi["urls"]}
           headers = {"Authorization": "Bearer " + os.environ["GH_TOKEN"], "Accept": "application/vnd.github+json"}
-          raw = get("https://api.github.com/repos/lonewolf15116/reliable-masked-tabular-imputation/actions/artifacts/14486589094/zip", headers)
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, hdrs, newurl):
+                  return None
+          api_url = "https://api.github.com/repos/lonewolf15116/reliable-masked-tabular-imputation/actions/artifacts/14486589094/zip"
+          request = urllib.request.Request(api_url, headers={"User-Agent": "rmti-archive-audit/1.0", **headers})
+          try:
+              urllib.request.build_opener(NoRedirect).open(request, timeout=30)
+              raise RuntimeError("Expected GitHub artifact redirect, got direct response")
+          except urllib.error.HTTPError as exc:
+              if exc.code not in (301,302,303,307,308):
+                  raise
+              signed = exc.headers.get("Location")
+              assert signed and signed.startswith("https://"), "Missing signed artifact download URL"
+          raw = get(signed)
           with zipfile.ZipFile(io.BytesIO(raw)) as archive:
               evidence = {p: archive.read(p) for p in archive.namelist() if not p.endswith("/")}
           print("ACCEPTED_ARTIFACT_ENTRIES", sorted(evidence))
