@@ -1,0 +1,66 @@
+name: Audit published v0.1.0 provenance
+on:
+  push:
+    paths:
+      - .github/workflows/pypi-provenance-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compare PyPI hashes, tag and release-note disclosures
+        env:
+          GH_REPO: lonewolf15116/reliable-masked-tabular-imputation
+        run: |
+          python - <<'PY'
+          import json, os, sys, urllib.request
+          expected = {
+              "reliable_masked_tabular_imputation-0.1.0-py3-none-any.whl": "1a70b24bac9dd6f0873c7ae690e9edabb792946cc7f0fa8e92e716c6da7c635a",
+              "reliable_masked_tabular_imputation-0.1.0.tar.gz": "bab9c94375dfb47ed4002d9910e01b9aae53940f9b95c53a9690e3836e693c7c",
+          }
+          def get_json(url):
+              req = urllib.request.Request(url, headers={"User-Agent": "rmti-release-audit/1.0", "Accept": "application/json"})
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  return json.load(response)
+          pypi = get_json("https://pypi.org/pypi/reliable-masked-tabular-imputation/0.1.0/json")
+          uploaded = {v["filename"]: v["digests"]["sha256"] for v in pypi["urls"]}
+          results = {}
+          for name, sha in expected.items():
+              actual = uploaded.get(name)
+              match = actual == sha
+              results[name] = {"expected": sha, "published": actual, "matches_accepted": match}
+              print("ARTIFACT", name, "MATCH" if match else "MISMATCH", "published_sha256=", actual, "accepted_sha256=", sha, flush=True)
+          tag = get_json("https://api.github.com/repos/" + os.environ["GH_REPO"] + "/git/ref/tags/v0.1.0")
+          target = tag["object"]["sha"]
+          if tag["object"]["type"] == "tag":
+              target = get_json(tag["object"]["url"])["object"]["sha"]
+          tag_pass = target == "a79cebbdd4bfac4afa083c24ee01c554e6d29393"
+          print("TAG_COMMIT", target, "EXPECTED_MATCH", tag_pass, flush=True)
+          release = get_json("https://api.github.com/repos/" + os.environ["GH_REPO"] + "/releases/tags/v0.1.0")
+          body = release.get("body") or ""
+          print("GITHUB_RELEASE", "published=", not release["draft"], "prerelease=", release["prerelease"], "url=", release["html_url"], flush=True)
+          checks = {
+              "AI-assisted verification disclosed": "AI-assisted" in body or "AI assisted" in body,
+              "unattested human-reviewer identity disclosed": "human" in body.lower() and ("unverified" in body.lower() or "no verified" in body.lower()),
+              "legacy experimental module disclosed": "rmti" in body and "experimental" in body.lower(),
+              "MAR/MNAR limits disclosed": "MAR" in body and ("MNAR" in body or "validation" in body.lower()),
+              "F-IR-008 deferred disclosed": "F-IR-008" in body,
+          }
+          for k,v in checks.items():
+              print("RELEASE_NOTE", k, "PASS" if v else "MISSING", flush=True)
+          report = {"project":"reliable-masked-tabular-imputation","version":"0.1.0","candidate_commit":"a79cebbdd4bfac4afa083c24ee01c554e6d29393","tag_target":target,"tag_matches":tag_pass,"pypi_files":results,"github_release_url":release["html_url"],"release_draft":release["draft"],"release_note_checks":checks}
+          with open("published_audit.json","w") as f: json.dump(report,f,indent=2,sort_keys=True)
+          # Findings are reported in logs and artifact; do not fail merely because
+          # published files differ from the accepted hashes. Evidence must survive.
+          if not tag_pass: sys.exit("Tag target mismatch; stop")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rmti-published-audit
+          path: published_audit.json
+          if-no-files-found: error
