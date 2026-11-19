@@ -1,5 +1,7 @@
 """Adversarial public API tests derived from conditional external review C1-C5."""
 import numpy as np
+from decimal import Decimal
+from fractions import Fraction
 import pandas as pd
 import pytest
 from reliable_masked_tabular_imputation import make_mcar_mask, apply_mask, masked_mae, masked_rmse
@@ -176,3 +178,43 @@ def test_mixed_columns_keep_nonselected_dtypes_and_input_immutability():
     assert str(out["nullable"].dtype) == "Int64"
     assert str(out["category"].dtype) == "category"
     pd.testing.assert_frame_equal(frame, before)
+
+@pytest.mark.parametrize("unsupported", [
+    Decimal("0.1"),
+    Fraction(1, 3),
+    Decimal("1e1000"),
+    "2.5",
+    complex(1, 0),
+])
+@pytest.mark.parametrize("invalid_side", ["truth", "imputed"])
+def test_unsupported_object_numeric_selected_values_rejected(unsupported, invalid_side):
+    truth = pd.DataFrame({"x": pd.Series([1.0, 2.0], dtype=object),
+                          "unselected": [Decimal("1.0"), None]})
+    predicted = truth.copy(deep=True)
+    target = truth if invalid_side == "truth" else predicted
+    target.at[0, "x"] = unsupported
+    mask = pd.DataFrame({"x": [True, False], "unselected": [False, False]})
+    for scorer in (masked_mae, masked_rmse):
+        with pytest.raises(TypeError, match="supported Python/NumPy numeric scalar"):
+            scorer(truth, predicted, mask)
+
+
+def test_unselected_unsupported_object_values_do_not_block_scoring():
+    truth = pd.DataFrame({"x": pd.Series([3.0, Fraction(1, 3), None], dtype=object),
+                          "note": [Decimal("0.1"), "other", None]})
+    predicted = truth.copy(deep=True)
+    predicted.at[0, "x"] = 4.0
+    mask = pd.DataFrame({"x": [True, False, False], "note": [False, False, False]})
+    before_truth, before_predicted = truth.copy(deep=True), predicted.copy(deep=True)
+    assert masked_mae(truth, predicted, mask) == pytest.approx(1.0)
+    assert masked_rmse(truth, predicted, mask) == pytest.approx(1.0)
+    pd.testing.assert_frame_equal(truth, before_truth)
+    pd.testing.assert_frame_equal(predicted, before_predicted)
+
+
+def test_mixed_object_supported_python_numpy_numeric_scalars():
+    truth = pd.DataFrame({"x": pd.Series([3, np.float64(1.5)], dtype=object)})
+    predicted = pd.DataFrame({"x": pd.Series([4.0, np.int64(2)], dtype=object)})
+    mask = pd.DataFrame({"x": [True, True]})
+    assert masked_mae(truth, predicted, mask) == pytest.approx(0.75)
+    assert masked_rmse(truth, predicted, mask) == pytest.approx(np.sqrt(0.625))
