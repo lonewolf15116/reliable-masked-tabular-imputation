@@ -59,6 +59,8 @@ def apply_mask(frame: pd.DataFrame, mask: pd.DataFrame) -> pd.DataFrame:
     """Return a copy with True mask positions set missing; never mutate inputs.
 
     Require identical ordered axes to prevent silent pandas alignment bugs.
+    Masked NumPy integer columns are converted to nullable pandas Int64/UInt64
+    (preserving unmasked integer values exactly) rather than promoted to float.
     """
     if not isinstance(frame, pd.DataFrame) or not isinstance(mask, pd.DataFrame):
         raise TypeError("frame and mask must be pandas DataFrames")
@@ -68,4 +70,11 @@ def apply_mask(frame: pd.DataFrame, mask: pd.DataFrame) -> pd.DataFrame:
         raise TypeError("mask must contain only boolean values")
     if mask.isna().to_numpy().any():
         raise ValueError("mask cannot contain missing values")
-    return frame.mask(mask)
+    result = frame.copy(deep=True)
+    for column in frame.columns:
+        dtype = frame[column].dtype
+        if (mask[column].to_numpy(dtype=bool).any()
+                and isinstance(dtype, np.dtype) and dtype.kind in ("i", "u")):
+            nullable_dtype = "Int64" if dtype.kind == "i" else "UInt64"
+            result[column] = frame[column].astype(nullable_dtype)
+    return result.mask(mask)
